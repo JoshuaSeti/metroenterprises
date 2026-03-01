@@ -12,6 +12,7 @@ import ProductPage from "./pages/ProductPage";
 import CartPage from "./pages/CartPage";
 import AuthPage from "./pages/AuthPage";
 import AccountPage from "./pages/AccountPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 import SupportPage from "./pages/SupportPage";
 import CategoriesPage from "./pages/CategoriesPage";
 import InfluencerDashboard from "./pages/InfluencerDashboard";
@@ -40,6 +41,7 @@ const App = () => (
               <Route path="/product/:slug" element={<ProductPage />} />
               <Route path="/cart" element={<CartPage />} />
               <Route path="/auth" element={<AuthPage />} />
+              <Route path="/reset-password" element={<ResetPasswordPage />} />
               <Route path="/account" element={<AccountPage />} />
               <Route path="/support" element={<SupportPage />} />
               <Route path="/categories" element={<CategoriesPage />} />
