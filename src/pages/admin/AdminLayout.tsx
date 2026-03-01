@@ -2,6 +2,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { useNavigate, Link, Outlet, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { LayoutDashboard, Package, Tag, TicketPercent, Megaphone, Image, ShoppingCart, MessageSquare, Users, LogOut } from "lucide-react";
+import metroLogo from "@/assets/metro-logo.png";
 
 const navItems = [
   { label: "Overview", path: "/admin", icon: LayoutDashboard },
@@ -33,7 +34,9 @@ export default function AdminLayout() {
     <div className="min-h-screen flex">
       <aside className="w-56 border-r border-border bg-background flex-shrink-0 flex flex-col">
         <div className="p-4 border-b border-border">
-          <Link to="/" className="font-heading text-lg font-bold tracking-tight">METRO</Link>
+          <Link to="/" className="block">
+            <img src={metroLogo} alt="Metro Enterprises" className="h-8" />
+          </Link>
           <p className="text-xs text-muted-foreground mt-1">Admin Panel</p>
         </div>
         <nav className="flex-1 py-2">

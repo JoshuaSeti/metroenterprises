@@ -3,6 +3,7 @@ import { ShoppingBag, User, Menu, X } from "lucide-react";
 import { useCart } from "@/hooks/use-cart";
 import { useAuth } from "@/hooks/use-auth";
 import { useState } from "react";
+import metroLogo from "@/assets/metro-logo.png";
 
 export default function Navbar() {
   const { itemCount } = useCart();
@@ -12,8 +13,8 @@ export default function Navbar() {
   return (
     <header className="border-b border-border bg-background sticky top-0 z-50">
       <div className="container flex items-center justify-between h-16">
-        <Link to="/" className="font-heading text-xl font-bold tracking-tight">
-          METRO
+        <Link to="/" className="flex items-center">
+          <img src={metroLogo} alt="Metro Enterprises" className="h-10" />
         </Link>
 
         <nav className="hidden md:flex items-center gap-8 text-sm font-medium tracking-wide uppercase">
