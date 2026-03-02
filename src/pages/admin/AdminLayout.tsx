@@ -36,7 +36,7 @@ export default function AdminLayout() {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-4">
         <p className="text-muted-foreground">You need to sign in to access the admin panel.</p>
-        <Link to="/auth" className="underline text-primary">Sign In</Link>
+        <Link to="/signin" className="underline text-primary">Sign In</Link>
       </div>
     );
   }

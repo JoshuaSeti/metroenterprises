@@ -13,7 +13,7 @@ export default function AccountPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!loading && !user) navigate("/auth");
+    if (!loading && !user) navigate("/signin");
   }, [user, loading, navigate]);
 
   if (loading || !user) return null;
