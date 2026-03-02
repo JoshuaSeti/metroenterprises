@@ -26,7 +26,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       .select("role")
       .eq("user_id", userId);
     if (data && data.length > 0) {
-      // Prioritize admin > influencer > customer
       if (data.some((r: any) => r.role === "admin")) setUserRole("admin");
       else if (data.some((r: any) => r.role === "influencer")) setUserRole("influencer");
       else setUserRole("customer");
@@ -41,7 +40,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setSession(session);
         setUser(session?.user ?? null);
         if (session?.user) {
-          setTimeout(() => fetchRole(session.user.id), 0);
+          await fetchRole(session.user.id);
         } else {
           setUserRole(null);
         }
@@ -49,10 +48,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     );
 
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
-      if (session?.user) fetchRole(session.user.id);
+      if (session?.user) await fetchRole(session.user.id);
       setLoading(false);
     });
 
