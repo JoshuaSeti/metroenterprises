@@ -19,6 +19,7 @@ import CategoriesPage from "./pages/CategoriesPage";
 import WishlistPage from "./pages/WishlistPage";
 import InfluencerDashboard from "./pages/InfluencerDashboard";
 import AdminLayout from "./pages/admin/AdminLayout";
+import AdminAuthPage from "./pages/admin/AdminAuthPage";
 import AdminOverview from "./pages/admin/AdminOverview";
 import AdminProducts from "./pages/admin/AdminProducts";
 import AdminCategories from "./pages/admin/AdminCategories";
@@ -51,6 +52,7 @@ const App = () => (
               <Route path="/categories" element={<CategoriesPage />} />
               <Route path="/wishlist" element={<WishlistPage />} />
               <Route path="/influencer" element={<InfluencerDashboard />} />
+              <Route path="/admin/login" element={<AdminAuthPage />} />
               <Route path="/admin" element={<AdminLayout />}>
                 <Route index element={<AdminOverview />} />
                 <Route path="products" element={<AdminProducts />} />

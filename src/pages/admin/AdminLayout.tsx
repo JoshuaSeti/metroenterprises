@@ -1,5 +1,5 @@
 import { useAuth } from "@/hooks/use-auth";
-import { useNavigate, Link, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation, Navigate } from "react-router-dom";
 import { useEffect } from "react";
 import { LayoutDashboard, Package, Tag, TicketPercent, Megaphone, Image, ShoppingCart, MessageSquare, Users, LogOut, Loader2 } from "lucide-react";
 import metroLogo from "@/assets/metro-logo.png";
@@ -19,7 +19,6 @@ const navItems = [
 
 export default function AdminLayout() {
   const { user, userRole, loading, signOut } = useAuth();
-  const navigate = useNavigate();
   const location = useLocation();
 
   // Show loading while auth + role are being resolved
@@ -31,25 +30,11 @@ export default function AdminLayout() {
     );
   }
 
-  // Not logged in — redirect to auth page with return URL
-  if (!user) {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center gap-4">
-        <p className="text-muted-foreground">You need to sign in to access the admin panel.</p>
-        <Link to="/signin" className="underline text-primary">Sign In</Link>
-      </div>
-    );
+  if (!user || userRole !== "admin") {
+    return <Navigate to="/admin/login" replace />;
   }
 
   // Logged in but not admin
-  if (userRole !== "admin") {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center gap-4">
-        <p className="text-muted-foreground">Access denied. Admin privileges required.</p>
-        <Link to="/" className="underline text-primary">Go Home</Link>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen flex">
