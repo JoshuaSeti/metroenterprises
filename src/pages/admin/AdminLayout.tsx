@@ -1,7 +1,7 @@
 import { useAuth } from "@/hooks/use-auth";
 import { useNavigate, Link, Outlet, useLocation } from "react-router-dom";
 import { useEffect } from "react";
-import { LayoutDashboard, Package, Tag, TicketPercent, Megaphone, Image, ShoppingCart, MessageSquare, Users, LogOut } from "lucide-react";
+import { LayoutDashboard, Package, Tag, TicketPercent, Megaphone, Image, ShoppingCart, MessageSquare, Users, LogOut, Loader2 } from "lucide-react";
 import metroLogo from "@/assets/metro-logo.png";
 
 const navItems = [
@@ -22,13 +22,34 @@ export default function AdminLayout() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  useEffect(() => {
-    if (!loading && (!user || userRole !== "admin")) {
-      navigate("/");
-    }
-  }, [user, userRole, loading, navigate]);
+  // Show loading while auth + role are being resolved
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="animate-spin text-muted-foreground" size={32} />
+      </div>
+    );
+  }
 
-  if (loading || !user || userRole !== "admin") return null;
+  // Not logged in — redirect to auth page with return URL
+  if (!user) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center gap-4">
+        <p className="text-muted-foreground">You need to sign in to access the admin panel.</p>
+        <Link to="/auth" className="underline text-primary">Sign In</Link>
+      </div>
+    );
+  }
+
+  // Logged in but not admin
+  if (userRole !== "admin") {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center gap-4">
+        <p className="text-muted-foreground">Access denied. Admin privileges required.</p>
+        <Link to="/" className="underline text-primary">Go Home</Link>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex">
