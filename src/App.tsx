@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "@/hooks/use-auth";
 import { CartProvider } from "@/hooks/use-cart";
 import Index from "./pages/Index";
@@ -10,11 +10,13 @@ import NotFound from "./pages/NotFound";
 import ShopPage from "./pages/ShopPage";
 import ProductPage from "./pages/ProductPage";
 import CartPage from "./pages/CartPage";
-import AuthPage from "./pages/AuthPage";
+import SignInPage from "./pages/SignInPage";
+import SignUpPage from "./pages/SignUpPage";
 import AccountPage from "./pages/AccountPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import SupportPage from "./pages/SupportPage";
 import CategoriesPage from "./pages/CategoriesPage";
+import WishlistPage from "./pages/WishlistPage";
 import InfluencerDashboard from "./pages/InfluencerDashboard";
 import AdminLayout from "./pages/admin/AdminLayout";
 import AdminOverview from "./pages/admin/AdminOverview";
@@ -40,11 +42,14 @@ const App = () => (
               <Route path="/shop" element={<ShopPage />} />
               <Route path="/product/:slug" element={<ProductPage />} />
               <Route path="/cart" element={<CartPage />} />
-              <Route path="/auth" element={<AuthPage />} />
+              <Route path="/signin" element={<SignInPage />} />
+              <Route path="/signup" element={<SignUpPage />} />
+              <Route path="/auth" element={<Navigate to="/signin" replace />} />
               <Route path="/reset-password" element={<ResetPasswordPage />} />
               <Route path="/account" element={<AccountPage />} />
               <Route path="/support" element={<SupportPage />} />
               <Route path="/categories" element={<CategoriesPage />} />
+              <Route path="/wishlist" element={<WishlistPage />} />
               <Route path="/influencer" element={<InfluencerDashboard />} />
               <Route path="/admin" element={<AdminLayout />}>
                 <Route index element={<AdminOverview />} />

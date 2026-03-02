@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ShoppingBag, User, Menu, X } from "lucide-react";
+import { ShoppingBag, User, Menu, X, Heart } from "lucide-react";
 import { useCart } from "@/hooks/use-cart";
 import { useAuth } from "@/hooks/use-auth";
 import { useState } from "react";
@@ -23,12 +23,17 @@ export default function Navbar() {
         </nav>
 
         <div className="flex items-center gap-4">
+          {user && (
+            <Link to="/wishlist" className="hover:text-primary transition-colors">
+              <Heart size={20} />
+            </Link>
+          )}
           {user ? (
             <Link to={userRole === "admin" ? "/admin" : userRole === "influencer" ? "/influencer" : "/account"} className="hover:text-primary transition-colors">
               <User size={20} />
             </Link>
           ) : (
-            <Link to="/auth" className="text-sm font-medium tracking-wide uppercase hover:text-primary transition-colors">
+            <Link to="/signin" className="text-sm font-medium tracking-wide uppercase hover:text-primary transition-colors">
               Sign In
             </Link>
           )}
@@ -51,6 +56,7 @@ export default function Navbar() {
           <nav className="container py-4 flex flex-col gap-4 text-sm font-medium tracking-wide uppercase">
             <Link to="/shop" onClick={() => setMenuOpen(false)}>Shop</Link>
             <Link to="/categories" onClick={() => setMenuOpen(false)}>Categories</Link>
+            {user && <Link to="/wishlist" onClick={() => setMenuOpen(false)}>Wishlist</Link>}
             {user && userRole === "admin" && (
               <Link to="/admin" onClick={() => setMenuOpen(false)}>Admin</Link>
             )}
