@@ -26,7 +26,10 @@ import AdminCategories from "./pages/admin/AdminCategories";
 import AdminOrders from "./pages/admin/AdminOrders";
 import AdminSupport from "./pages/admin/AdminSupport";
 import AdminPromoCodes from "./pages/admin/AdminPromoCodes";
-import AdminPlaceholder from "./pages/admin/AdminPlaceholder";
+import AdminDiscounts from "./pages/admin/AdminDiscounts";
+import AdminCampaigns from "./pages/admin/AdminCampaigns";
+import AdminCarousel from "./pages/admin/AdminCarousel";
+import AdminUsers from "./pages/admin/AdminUsers";
 
 const queryClient = new QueryClient();
 
