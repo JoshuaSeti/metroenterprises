@@ -63,10 +63,10 @@ const App = () => (
                 <Route path="orders" element={<AdminOrders />} />
                 <Route path="support" element={<AdminSupport />} />
                 <Route path="promo-codes" element={<AdminPromoCodes />} />
-                <Route path="discounts" element={<AdminPlaceholder title="Discounts" />} />
-                <Route path="campaigns" element={<AdminPlaceholder title="Campaigns" />} />
-                <Route path="carousel" element={<AdminPlaceholder title="Carousel" />} />
-                <Route path="users" element={<AdminPlaceholder title="Users" />} />
+                <Route path="discounts" element={<AdminDiscounts />} />
+                <Route path="campaigns" element={<AdminCampaigns />} />
+                <Route path="carousel" element={<AdminCarousel />} />
+                <Route path="users" element={<AdminUsers />} />
               </Route>
               <Route path="*" element={<NotFound />} />
             </Routes>
