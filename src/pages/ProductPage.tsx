@@ -1,15 +1,59 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useProduct } from "@/hooks/use-store-data";
+import { useProduct, useDiscountsForProduct } from "@/hooks/use-store-data";
 import { useParams } from "react-router-dom";
 import { useCart } from "@/hooks/use-cart";
-import { Minus, Plus } from "lucide-react";
+import { Minus, Plus, Tag } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+
+function getDiscountedPrice(price: number, discounts: any[]): { finalPrice: number; label: string | null } {
+  if (!discounts || discounts.length === 0) return { finalPrice: price, label: null };
+
+  const now = new Date();
+  const active = discounts.filter((d) => {
+    if (!d.is_active) return false;
+    if (d.start_date && new Date(d.start_date) > now) return false;
+    if (d.end_date && new Date(d.end_date) < now) return false;
+    return true;
+  });
+
+  if (active.length === 0) return { finalPrice: price, label: null };
+
+  // Pick best percentage discount
+  let bestDiscount = active[0];
+  let bestAmount = 0;
+
+  for (const d of active) {
+    let amount = 0;
+    if (d.type === "percentage") {
+      amount = price * (Number(d.value) / 100);
+    } else if (d.type === "bulk" || d.type === "bundle" || d.type === "first_order") {
+      amount = price * (Number(d.value) / 100);
+    }
+    if (amount > bestAmount) {
+      bestAmount = amount;
+      bestDiscount = d;
+    }
+  }
+
+  if (bestAmount <= 0) return { finalPrice: price, label: null };
+
+  const label = bestDiscount.type === "percentage"
+    ? `${bestDiscount.value}% OFF`
+    : bestDiscount.type === "bulk"
+      ? `${bestDiscount.value}% OFF (${bestDiscount.min_quantity}+)`
+      : bestDiscount.type === "first_order"
+        ? `${bestDiscount.value}% OFF First Order`
+        : `${bestDiscount.value}% OFF Bundle`;
+
+  return { finalPrice: Math.max(0, price - bestAmount), label };
+}
 
 export default function ProductPage() {
   const { slug } = useParams<{ slug: string }>();
   const { data: product, isLoading } = useProduct(slug || "");
+  const { data: discounts } = useDiscountsForProduct(product?.id || "");
   const { addItem } = useCart();
   const [qty, setQty] = useState(1);
 
@@ -44,12 +88,16 @@ export default function ProductPage() {
     );
   }
 
+  const price = Number(product.price);
+  const { finalPrice, label: discountLabel } = getDiscountedPrice(price, discounts || []);
+  const hasDiscount = finalPrice < price;
+
   const handleAddToCart = () => {
     for (let i = 0; i < qty; i++) {
       addItem({
         id: product.id,
         name: product.name,
-        price: Number(product.price),
+        price: finalPrice,
         image_url: product.image_url,
       });
     }
@@ -62,11 +110,16 @@ export default function ProductPage() {
       <Navbar />
       <main className="flex-1 container py-12">
         <div className="grid md:grid-cols-2 gap-12">
-          <div className="aspect-square bg-secondary overflow-hidden">
+          <div className="relative aspect-square bg-secondary overflow-hidden">
             {product.image_url ? (
               <img src={product.image_url} alt={product.name} className="w-full h-full object-cover" />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-muted-foreground">No image</div>
+            )}
+            {discountLabel && (
+              <span className="absolute top-0 left-0 bg-primary text-primary-foreground text-xs font-semibold px-4 py-2 uppercase tracking-wide">
+                {discountLabel}
+              </span>
             )}
           </div>
 
@@ -77,7 +130,18 @@ export default function ProductPage() {
               </p>
             )}
             <h1 className="font-heading text-3xl md:text-4xl font-bold mb-4">{product.name}</h1>
-            <p className="text-2xl font-semibold mb-6">${Number(product.price).toFixed(2)}</p>
+
+            <div className="flex items-center gap-3 mb-6">
+              <span className="text-2xl font-semibold">${finalPrice.toFixed(2)}</span>
+              {hasDiscount && (
+                <span className="text-lg text-muted-foreground line-through">${price.toFixed(2)}</span>
+              )}
+              {discountLabel && (
+                <span className="inline-flex items-center gap-1 bg-primary/10 text-primary text-xs font-semibold px-2 py-1 rounded">
+                  <Tag size={12} /> {discountLabel}
+                </span>
+              )}
+            </div>
 
             {product.description && (
               <p className="text-muted-foreground leading-relaxed mb-8">{product.description}</p>

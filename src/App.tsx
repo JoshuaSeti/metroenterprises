@@ -26,7 +26,10 @@ import AdminCategories from "./pages/admin/AdminCategories";
 import AdminOrders from "./pages/admin/AdminOrders";
 import AdminSupport from "./pages/admin/AdminSupport";
 import AdminPromoCodes from "./pages/admin/AdminPromoCodes";
-import AdminPlaceholder from "./pages/admin/AdminPlaceholder";
+import AdminDiscounts from "./pages/admin/AdminDiscounts";
+import AdminCampaigns from "./pages/admin/AdminCampaigns";
+import AdminCarousel from "./pages/admin/AdminCarousel";
+import AdminUsers from "./pages/admin/AdminUsers";
 
 const queryClient = new QueryClient();
 
@@ -60,10 +63,10 @@ const App = () => (
                 <Route path="orders" element={<AdminOrders />} />
                 <Route path="support" element={<AdminSupport />} />
                 <Route path="promo-codes" element={<AdminPromoCodes />} />
-                <Route path="discounts" element={<AdminPlaceholder title="Discounts" />} />
-                <Route path="campaigns" element={<AdminPlaceholder title="Campaigns" />} />
-                <Route path="carousel" element={<AdminPlaceholder title="Carousel" />} />
-                <Route path="users" element={<AdminPlaceholder title="Users" />} />
+                <Route path="discounts" element={<AdminDiscounts />} />
+                <Route path="campaigns" element={<AdminCampaigns />} />
+                <Route path="carousel" element={<AdminCarousel />} />
+                <Route path="users" element={<AdminUsers />} />
               </Route>
               <Route path="*" element={<NotFound />} />
             </Routes>

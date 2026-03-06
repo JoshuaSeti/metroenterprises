@@ -82,6 +82,65 @@ export function useDiscountsForProduct(productId: string) {
   });
 }
 
+export function useAllActiveDiscounts() {
+  return useQuery({
+    queryKey: ["all-active-discounts"],
+    queryFn: async () => {
+      const now = new Date().toISOString();
+      const { data, error } = await supabase
+        .from("discounts")
+        .select("*, discount_products(product_id, category_id)")
+        .eq("is_active", true);
+      if (error) throw error;
+      // Filter by date in JS to handle nulls
+      return (data || []).filter((d) => {
+        if (d.start_date && d.start_date > now) return false;
+        if (d.end_date && d.end_date < now) return false;
+        return true;
+      });
+    },
+  });
+}
+
+export function getProductDiscount(
+  productId: string,
+  categoryId: string | null,
+  price: number,
+  discounts: any[]
+): { finalPrice: number; label: string | null } {
+  if (!discounts || discounts.length === 0) return { finalPrice: price, label: null };
+
+  const applicable = discounts.filter((d) =>
+    d.discount_products?.some(
+      (dp: any) =>
+        dp.product_id === productId ||
+        (dp.category_id && dp.category_id === categoryId)
+    ) || (d.discount_products?.length === 0)
+  );
+
+  if (applicable.length === 0) return { finalPrice: price, label: null };
+
+  let bestAmount = 0;
+  let bestDiscount: any = null;
+  for (const d of applicable) {
+    const amount = price * (Number(d.value) / 100);
+    if (amount > bestAmount) {
+      bestAmount = amount;
+      bestDiscount = d;
+    }
+  }
+
+  if (!bestDiscount || bestAmount <= 0) return { finalPrice: price, label: null };
+
+  const label =
+    bestDiscount.type === "percentage" ? `${bestDiscount.value}% OFF` :
+    bestDiscount.type === "bulk" ? `${bestDiscount.value}% OFF (${bestDiscount.min_quantity}+)` :
+    bestDiscount.type === "first_order" ? `${bestDiscount.value}% OFF First Order` :
+    `${bestDiscount.value}% OFF`;
+
+  return { finalPrice: Math.max(0, price - bestAmount), label };
+}
+
 export function useValidatePromoCode() {
   return useMutation({
     mutationFn: async (code: string) => {
