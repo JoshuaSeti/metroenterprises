@@ -21,15 +21,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [userRole, setUserRole] = useState<string | null>(null);
 
   const fetchRole = async (userId: string) => {
-    const { data } = await supabase
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", userId);
-    if (data && data.length > 0) {
-      if (data.some((r: any) => r.role === "admin")) setUserRole("admin");
-      else if (data.some((r: any) => r.role === "influencer")) setUserRole("influencer");
-      else setUserRole("customer");
-    } else {
+    try {
+      const { data, error } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", userId);
+      if (error) {
+        console.error("Failed to fetch role:", error.message);
+        setUserRole("customer");
+        return;
+      }
+      if (data && data.length > 0) {
+        if (data.some((r: any) => r.role === "admin")) setUserRole("admin");
+        else if (data.some((r: any) => r.role === "influencer")) setUserRole("influencer");
+        else setUserRole("customer");
+      } else {
+        setUserRole("customer");
+      }
+    } catch (err) {
+      console.error("Role fetch error:", err);
       setUserRole("customer");
     }
   };
