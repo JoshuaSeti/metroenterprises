@@ -45,7 +45,7 @@ export default function SignInPage() {
             {mode === "forgot" ? "Reset Password" : "Sign In"}
           </h1>
           <p className="text-center text-muted-foreground mb-8">
-            {mode === "forgot" ? "Enter your email to receive a reset link" : "Welcome back to Metro"}
+            {mode === "forgot" ? "Enter your email to receive a reset link" : "Welcome back to Direct-Link Supplies"}
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-4">

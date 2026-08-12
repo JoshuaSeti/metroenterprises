@@ -49,7 +49,7 @@ export default function AuthPage() {
             {mode === "forgot" ? "Reset Password" : mode === "signin" ? "Sign In" : "Create Account"}
           </h1>
           <p className="text-center text-muted-foreground mb-8">
-            {mode === "forgot" ? "Enter your email to receive a reset link" : mode === "signin" ? "Welcome back to Metro" : "Join Metro Enterprises"}
+            {mode === "forgot" ? "Enter your email to receive a reset link" : mode === "signin" ? "Welcome back to Direct-Link Supplies" : "Join Direct-Link Supplies"}
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-4">

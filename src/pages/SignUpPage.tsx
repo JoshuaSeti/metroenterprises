@@ -31,7 +31,7 @@ export default function SignUpPage() {
       <main className="flex-1 flex items-center justify-center py-20">
         <div className="w-full max-w-md px-4">
           <h1 className="font-heading text-3xl font-bold text-center mb-2">Create Account</h1>
-          <p className="text-center text-muted-foreground mb-8">Join Metro Enterprises</p>
+          <p className="text-center text-muted-foreground mb-8">Join Direct-Link Supplies</p>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
