@@ -43,7 +43,7 @@ const Index = () => {
 
         <section className="container py-16">
           <div className="flex items-end justify-between mb-8">
-            <h2 className="font-heading text-2xl md:text-3xl font-semibold">Featured</h2>
+            <h2 className="font-heading text-2xl md:text-3xl font-extrabold uppercase">Trending Now</h2>
             <Link to="/shop" className="text-sm font-medium uppercase tracking-wide hover:text-primary transition-colors flex items-center gap-1">
               Shop All <ArrowRight size={14} />
             </Link>
