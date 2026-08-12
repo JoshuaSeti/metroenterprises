@@ -493,6 +493,125 @@ export type Database = {
         }
         Relationships: []
       }
+      reward_transactions: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          note: string | null
+          order_id: string | null
+          points: number
+          reason: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          note?: string | null
+          order_id?: string | null
+          points: number
+          reason?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          note?: string | null
+          order_id?: string | null
+          points?: number
+          reason?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reward_transactions_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rewards_settings: {
+        Row: {
+          created_at: string
+          id: string
+          is_enabled: boolean
+          min_redeem_points: number
+          points_per_currency: number
+          points_per_currency_redeem: number
+          program_name: string
+          signup_bonus_points: number
+          terms: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_enabled?: boolean
+          min_redeem_points?: number
+          points_per_currency?: number
+          points_per_currency_redeem?: number
+          program_name?: string
+          signup_bonus_points?: number
+          terms?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_enabled?: boolean
+          min_redeem_points?: number
+          points_per_currency?: number
+          points_per_currency_redeem?: number
+          program_name?: string
+          signup_bonus_points?: number
+          terms?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      rewards_tiers: {
+        Row: {
+          color: string
+          created_at: string
+          id: string
+          is_active: boolean
+          min_points: number
+          multiplier: number
+          name: string
+          perks: string | null
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          color?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          min_points?: number
+          multiplier?: number
+          name: string
+          perks?: string | null
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          color?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          min_points?: number
+          multiplier?: number
+          name?: string
+          perks?: string | null
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       support_tickets: {
         Row: {
           admin_response: string | null
