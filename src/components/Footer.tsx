@@ -7,7 +7,7 @@ export default function Footer() {
         <div>
           <h3 className="font-heading text-lg font-semibold mb-4">DIRECT-LINK SUPPLIES</h3>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Curated essentials for the modern individual. Quality without compromise.
+            Your direct source for phones, laptops, gadgets and trending goods. Sourcing made simple.
           </p>
         </div>
         <div>

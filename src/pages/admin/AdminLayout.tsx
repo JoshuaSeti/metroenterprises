@@ -2,7 +2,8 @@ import { useAuth } from "@/hooks/use-auth";
 import { Link, Outlet, useLocation, Navigate } from "react-router-dom";
 import { useEffect } from "react";
 import { LayoutDashboard, Package, Tag, TicketPercent, Megaphone, Image, ShoppingCart, MessageSquare, Users, Gift, LogOut, Loader2 } from "lucide-react";
-import brandLogo from "@/assets/direct-link-logo.png";
+import brandLogoAsset from "@/assets/direct-link-logo.jpg.asset.json";
+const brandLogo = brandLogoAsset.url;
 
 const navItems = [
   { label: "Overview", path: "/admin", icon: LayoutDashboard },
