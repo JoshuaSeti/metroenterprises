@@ -20,6 +20,7 @@ export default function Navbar() {
         <nav className="hidden md:flex items-center gap-8 text-sm font-medium tracking-wide uppercase">
           <Link to="/shop" className="hover:text-primary transition-colors">Shop</Link>
           <Link to="/categories" className="hover:text-primary transition-colors">Categories</Link>
+          <Link to="/rewards" className="hover:text-primary transition-colors">Rewards</Link>
         </nav>
 
         <div className="flex items-center gap-4">
@@ -56,6 +57,7 @@ export default function Navbar() {
           <nav className="container py-4 flex flex-col gap-4 text-sm font-medium tracking-wide uppercase">
             <Link to="/shop" onClick={() => setMenuOpen(false)}>Shop</Link>
             <Link to="/categories" onClick={() => setMenuOpen(false)}>Categories</Link>
+            <Link to="/rewards" onClick={() => setMenuOpen(false)}>Rewards</Link>
             {user && <Link to="/wishlist" onClick={() => setMenuOpen(false)}>Wishlist</Link>}
             {user && userRole === "admin" && (
               <Link to="/admin" onClick={() => setMenuOpen(false)}>Admin</Link>

@@ -1,7 +1,7 @@
 import { useAuth } from "@/hooks/use-auth";
 import { Link, Outlet, useLocation, Navigate } from "react-router-dom";
 import { useEffect } from "react";
-import { LayoutDashboard, Package, Tag, TicketPercent, Megaphone, Image, ShoppingCart, MessageSquare, Users, LogOut, Loader2 } from "lucide-react";
+import { LayoutDashboard, Package, Tag, TicketPercent, Megaphone, Image, ShoppingCart, MessageSquare, Users, Gift, LogOut, Loader2 } from "lucide-react";
 import brandLogo from "@/assets/direct-link-logo.png";
 
 const navItems = [
@@ -15,6 +15,7 @@ const navItems = [
   { label: "Orders", path: "/admin/orders", icon: ShoppingCart },
   { label: "Support", path: "/admin/support", icon: MessageSquare },
   { label: "Users", path: "/admin/users", icon: Users },
+  { label: "Rewards", path: "/admin/rewards", icon: Gift },
 ];
 
 export default function AdminLayout() {

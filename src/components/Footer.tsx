@@ -16,6 +16,7 @@ export default function Footer() {
             <Link to="/shop" className="hover:text-foreground transition-colors">Shop All</Link>
             <Link to="/categories" className="hover:text-foreground transition-colors">Categories</Link>
             <Link to="/account" className="hover:text-foreground transition-colors">My Account</Link>
+            <Link to="/rewards" className="hover:text-foreground transition-colors">Rewards</Link>
             <Link to="/support" className="hover:text-foreground transition-colors">Support</Link>
           </nav>
         </div>
