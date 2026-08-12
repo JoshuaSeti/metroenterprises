@@ -15,16 +15,16 @@ interface Slide {
 const defaultSlides: Slide[] = [
   {
     image: heroImage1,
-    headline: "Refined Essentials",
-    subtext: "Curated pieces for the discerning individual",
-    ctaLabel: "Shop Now",
+    headline: "Phones & Laptops, Direct",
+    subtext: "Genuine devices sourced straight from suppliers — no middlemen",
+    ctaLabel: "Shop Devices",
     ctaLink: "/shop",
   },
   {
     image: heroImage2,
-    headline: "New Season",
-    subtext: "Timeless silhouettes, modern sensibility",
-    ctaLabel: "Explore",
+    headline: "Trending Goods, In Stock",
+    subtext: "Gadgets, accessories and everyday tech at wholesale prices",
+    ctaLabel: "Browse Stock",
     ctaLink: "/shop",
   },
 ];

@@ -86,11 +86,11 @@ const Index = () => {
           )}
         </section>
 
-        <section className="bg-foreground text-background">
+        <section className="bg-primary text-primary-foreground">
           <div className="container py-20 text-center">
-            <h2 className="font-heading text-3xl md:text-5xl font-bold mb-4">Quality Without Compromise</h2>
-            <p className="text-background/70 max-w-md mx-auto mb-8">Every piece is selected with intention. Built to last, designed to endure.</p>
-            <Link to="/shop" className="inline-block border border-background text-background px-8 py-3 text-sm font-semibold uppercase tracking-widest hover:bg-background hover:text-foreground transition-colors">Discover More</Link>
+            <h2 className="font-heading text-3xl md:text-5xl font-extrabold mb-4 uppercase">Sourcing Made Simple</h2>
+            <p className="text-primary-foreground/70 max-w-md mx-auto mb-8">Phones, laptops, gadgets and trending goods — verified stock, fast delivery, prices that make sense.</p>
+            <Link to="/shop" className="inline-block bg-accent text-accent-foreground px-8 py-3 text-sm font-semibold uppercase tracking-widest hover:opacity-90 transition-opacity">Shop Now</Link>
           </div>
         </section>
       </main>
