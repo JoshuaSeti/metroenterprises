@@ -17,6 +17,7 @@ import ResetPasswordPage from "./pages/ResetPasswordPage";
 import SupportPage from "./pages/SupportPage";
 import CategoriesPage from "./pages/CategoriesPage";
 import WishlistPage from "./pages/WishlistPage";
+import RewardsPage from "./pages/RewardsPage";
 import InfluencerDashboard from "./pages/InfluencerDashboard";
 import AdminLayout from "./pages/admin/AdminLayout";
 import AdminAuthPage from "./pages/admin/AdminAuthPage";
@@ -30,6 +31,7 @@ import AdminDiscounts from "./pages/admin/AdminDiscounts";
 import AdminCampaigns from "./pages/admin/AdminCampaigns";
 import AdminCarousel from "./pages/admin/AdminCarousel";
 import AdminUsers from "./pages/admin/AdminUsers";
+import AdminRewards from "./pages/admin/AdminRewards";
 
 const queryClient = new QueryClient();
 
@@ -54,6 +56,7 @@ const App = () => (
               <Route path="/support" element={<SupportPage />} />
               <Route path="/categories" element={<CategoriesPage />} />
               <Route path="/wishlist" element={<WishlistPage />} />
+              <Route path="/rewards" element={<RewardsPage />} />
               <Route path="/influencer" element={<InfluencerDashboard />} />
               <Route path="/admin/login" element={<AdminAuthPage />} />
               <Route path="/admin" element={<AdminLayout />}>
@@ -67,6 +70,7 @@ const App = () => (
                 <Route path="campaigns" element={<AdminCampaigns />} />
                 <Route path="carousel" element={<AdminCarousel />} />
                 <Route path="users" element={<AdminUsers />} />
+                <Route path="rewards" element={<AdminRewards />} />
               </Route>
               <Route path="*" element={<NotFound />} />
             </Routes>

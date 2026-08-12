@@ -2,7 +2,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import metroLogo from "@/assets/metro-logo.png";
+import brandLogo from "@/assets/direct-link-logo.png";
 
 export default function AdminAuthPage() {
   const [email, setEmail] = useState("");
@@ -35,7 +35,7 @@ export default function AdminAuthPage() {
       <div className="w-full max-w-sm px-6">
         <div className="border border-border bg-background p-8">
           <div className="flex justify-center mb-6">
-            <img src={metroLogo} alt="Metro Enterprises" className="h-10" />
+            <img src={brandLogo} alt="Direct-Link Supplies" className="h-10" />
           </div>
           <h1 className="font-heading text-xl font-bold text-center mb-1">Admin Login</h1>
           <p className="text-center text-muted-foreground text-xs mb-6">Authorized personnel only</p>

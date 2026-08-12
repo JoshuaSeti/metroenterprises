@@ -3,7 +3,7 @@ import { ShoppingBag, User, Menu, X, Heart } from "lucide-react";
 import { useCart } from "@/hooks/use-cart";
 import { useAuth } from "@/hooks/use-auth";
 import { useState } from "react";
-import metroLogo from "@/assets/metro-logo.png";
+import brandLogo from "@/assets/direct-link-logo.png";
 
 export default function Navbar() {
   const { itemCount } = useCart();
@@ -14,12 +14,13 @@ export default function Navbar() {
     <header className="border-b border-border bg-background sticky top-0 z-50">
       <div className="container flex items-center justify-between h-16">
         <Link to="/" className="flex items-center">
-          <img src={metroLogo} alt="Metro Enterprises" className="h-10" />
+          <img src={brandLogo} alt="Direct-Link Supplies" className="h-10" />
         </Link>
 
         <nav className="hidden md:flex items-center gap-8 text-sm font-medium tracking-wide uppercase">
           <Link to="/shop" className="hover:text-primary transition-colors">Shop</Link>
           <Link to="/categories" className="hover:text-primary transition-colors">Categories</Link>
+          <Link to="/rewards" className="hover:text-primary transition-colors">Rewards</Link>
         </nav>
 
         <div className="flex items-center gap-4">
@@ -56,6 +57,7 @@ export default function Navbar() {
           <nav className="container py-4 flex flex-col gap-4 text-sm font-medium tracking-wide uppercase">
             <Link to="/shop" onClick={() => setMenuOpen(false)}>Shop</Link>
             <Link to="/categories" onClick={() => setMenuOpen(false)}>Categories</Link>
+            <Link to="/rewards" onClick={() => setMenuOpen(false)}>Rewards</Link>
             {user && <Link to="/wishlist" onClick={() => setMenuOpen(false)}>Wishlist</Link>}
             {user && userRole === "admin" && (
               <Link to="/admin" onClick={() => setMenuOpen(false)}>Admin</Link>

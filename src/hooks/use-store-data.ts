@@ -203,6 +203,28 @@ export function useCreateOrder() {
       const { error: itemsError } = await supabase.from("order_items").insert(orderItems);
       if (itemsError) throw itemsError;
 
+      // Award reward points
+      try {
+        const { data: rewardSettings } = await supabase
+          .from("rewards_settings")
+          .select("is_enabled, points_per_currency")
+          .limit(1)
+          .maybeSingle();
+        if (rewardSettings?.is_enabled) {
+          const points = Math.floor(order.total * Number(rewardSettings.points_per_currency || 0));
+          if (points > 0) {
+            await supabase.from("reward_transactions").insert({
+              user_id: user.id,
+              points,
+              reason: "order_earned",
+              order_id: orderData.id,
+            });
+          }
+        }
+      } catch (e) {
+        console.error("Failed to award reward points", e);
+      }
+
       // Increment promo code usage
       if (order.promo_code_id) {
         await supabase.rpc("increment_promo_usage" as any, { code_id: order.promo_code_id });
@@ -212,6 +234,7 @@ export function useCreateOrder() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["orders"] });
+      queryClient.invalidateQueries({ queryKey: ["my-rewards"] });
     },
   });
 }
