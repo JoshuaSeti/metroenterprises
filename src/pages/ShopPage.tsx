@@ -22,7 +22,7 @@ export default function ShopPage() {
         <h1 className="font-heading text-3xl md:text-4xl font-bold mb-2">
           {categorySlug ? categories?.find((c) => c.slug === categorySlug)?.name || "Shop" : "Shop All"}
         </h1>
-        <p className="text-muted-foreground mb-8">Browse our curated collection</p>
+        <p className="text-muted-foreground mb-8">Phones, laptops, gadgets and trending goods</p>
 
         {categories && categories.length > 0 && (
           <div className="flex flex-wrap gap-2 mb-8">

@@ -3,7 +3,8 @@ import { ShoppingBag, User, Menu, X, Heart } from "lucide-react";
 import { useCart } from "@/hooks/use-cart";
 import { useAuth } from "@/hooks/use-auth";
 import { useState } from "react";
-import brandLogo from "@/assets/direct-link-logo.png";
+import brandLogoAsset from "@/assets/direct-link-logo.jpg.asset.json";
+const brandLogo = brandLogoAsset.url;
 
 export default function Navbar() {
   const { itemCount } = useCart();

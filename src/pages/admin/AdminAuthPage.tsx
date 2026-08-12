@@ -2,7 +2,8 @@ import { useAuth } from "@/hooks/use-auth";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import brandLogo from "@/assets/direct-link-logo.png";
+import brandLogoAsset from "@/assets/direct-link-logo.jpg.asset.json";
+const brandLogo = brandLogoAsset.url;
 
 export default function AdminAuthPage() {
   const [email, setEmail] = useState("");
