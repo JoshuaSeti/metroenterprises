@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ProductCard from "@/components/ProductCard";
+import ShopTabs from "@/components/ShopTabs";
 import { useProducts, useCategories, useAllActiveDiscounts, getProductDiscount } from "@/hooks/use-store-data";
 import { useSearchParams } from "react-router-dom";
 
@@ -22,11 +23,9 @@ export default function ShopPage() {
         <h1 className="font-heading text-3xl md:text-4xl font-bold mb-2">
           {categorySlug ? categories?.find((c) => c.slug === categorySlug)?.name || "Shop" : "Shop All"}
         </h1>
-        <p className="text-muted-foreground mb-4">Phones, laptops, gadgets and trending goods</p>
+        <p className="text-muted-foreground mb-6">Phones, laptops, gadgets and trending goods</p>
 
-        <a href="/group-buys" className="inline-flex items-center gap-2 mb-8 border border-border px-4 py-2 text-xs font-semibold uppercase tracking-wide hover:border-foreground transition-colors">
-          Join a Group Buy — unlock wholesale pricing
-        </a>
+        <ShopTabs />
 
         {categories && categories.length > 0 && (
           <div className="flex flex-wrap gap-2 mb-8">

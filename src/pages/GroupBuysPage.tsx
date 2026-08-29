@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import GroupBuyCard from "@/components/GroupBuyCard";
+import ShopTabs from "@/components/ShopTabs";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Plus } from "lucide-react";
@@ -85,9 +86,14 @@ export default function GroupBuysPage() {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <main className="flex-1 container py-12">
+        <h1 className="font-heading text-3xl md:text-4xl font-bold mb-2">Shop All</h1>
+        <p className="text-muted-foreground mb-6">Phones, laptops, gadgets and trending goods</p>
+
+        <ShopTabs />
+
         <div className="flex flex-wrap items-start justify-between gap-4 mb-8">
           <div>
-            <h1 className="font-heading text-3xl md:text-4xl font-bold mb-2">Group Buys</h1>
+            <h2 className="font-heading text-2xl font-bold mb-2">Active Group Buys</h2>
             <p className="text-muted-foreground max-w-xl">
               Team up with other buyers to hit bulk thresholds and unlock wholesale pricing. Join an active group buy or start your own.
             </p>

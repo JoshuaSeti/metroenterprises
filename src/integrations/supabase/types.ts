@@ -14,6 +14,91 @@ export type Database = {
   }
   public: {
     Tables: {
+      b2b_inquiries: {
+        Row: {
+          category_id: string | null
+          created_at: string
+          details: string | null
+          id: string
+          image_paths: string[]
+          product_name: string
+          quantity: number | null
+          status: Database["public"]["Enums"]["b2b_status"]
+          target_price: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          category_id?: string | null
+          created_at?: string
+          details?: string | null
+          id?: string
+          image_paths?: string[]
+          product_name: string
+          quantity?: number | null
+          status?: Database["public"]["Enums"]["b2b_status"]
+          target_price?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          category_id?: string | null
+          created_at?: string
+          details?: string | null
+          id?: string
+          image_paths?: string[]
+          product_name?: string
+          quantity?: number | null
+          status?: Database["public"]["Enums"]["b2b_status"]
+          target_price?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "b2b_inquiries_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      b2b_messages: {
+        Row: {
+          body: string
+          created_at: string
+          id: string
+          inquiry_id: string
+          is_admin: boolean
+          sender_id: string
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          id?: string
+          inquiry_id: string
+          is_admin?: boolean
+          sender_id: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          id?: string
+          inquiry_id?: string
+          is_admin?: boolean
+          sender_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "b2b_messages_inquiry_id_fkey"
+            columns: ["inquiry_id"]
+            isOneToOne: false
+            referencedRelation: "b2b_inquiries"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       campaign_products: {
         Row: {
           campaign_id: string
@@ -798,6 +883,7 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "influencer" | "customer"
+      b2b_status: "open" | "in_progress" | "quoted" | "closed"
       discount_type: "percentage" | "bulk" | "bundle" | "first_order"
       order_status:
         | "pending"
@@ -940,6 +1026,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "influencer", "customer"],
+      b2b_status: ["open", "in_progress", "quoted", "closed"],
       discount_type: ["percentage", "bulk", "bundle", "first_order"],
       order_status: [
         "pending",
