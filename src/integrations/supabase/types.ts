@@ -200,6 +200,97 @@ export type Database = {
         }
         Relationships: []
       }
+      group_buy_participants: {
+        Row: {
+          created_at: string
+          group_buy_id: string
+          id: string
+          quantity: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          group_buy_id: string
+          id?: string
+          quantity?: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          group_buy_id?: string
+          id?: string
+          quantity?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "group_buy_participants_group_buy_id_fkey"
+            columns: ["group_buy_id"]
+            isOneToOne: false
+            referencedRelation: "group_buys"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      group_buys: {
+        Row: {
+          committed_quantity: number
+          created_at: string
+          created_by: string | null
+          deadline: string | null
+          description: string | null
+          id: string
+          image_url: string | null
+          is_published: boolean
+          min_quantity: number
+          product_id: string | null
+          status: string
+          title: string
+          unit_price: number
+          updated_at: string
+        }
+        Insert: {
+          committed_quantity?: number
+          created_at?: string
+          created_by?: string | null
+          deadline?: string | null
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_published?: boolean
+          min_quantity?: number
+          product_id?: string | null
+          status?: string
+          title: string
+          unit_price?: number
+          updated_at?: string
+        }
+        Update: {
+          committed_quantity?: number
+          created_at?: string
+          created_by?: string | null
+          deadline?: string | null
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_published?: boolean
+          min_quantity?: number
+          product_id?: string | null
+          status?: string
+          title?: string
+          unit_price?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "group_buys_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       order_items: {
         Row: {
           created_at: string
