@@ -79,43 +79,50 @@ export default function HeroCarousel() {
                 <p className="text-background/80 text-lg mb-8 font-body">
                   {slide.subtext}
                 </p>
-                <Link
-                  to={slide.ctaLink}
-                  className="inline-block bg-background text-foreground px-8 py-3 text-sm font-semibold uppercase tracking-widest hover:bg-primary hover:text-primary-foreground transition-colors"
-                >
-                  {slide.ctaLabel}
-                </Link>
+                {slide.ctaLabel && (
+                  <Link
+                    to={slide.ctaLink}
+                    className="inline-block bg-background text-foreground px-8 py-3 text-sm font-semibold uppercase tracking-widest hover:bg-primary hover:text-primary-foreground transition-colors"
+                  >
+                    {slide.ctaLabel}
+                  </Link>
+                )}
               </div>
             </div>
           </div>
         </div>
       ))}
 
-      <button
-        onClick={() => setCurrent((c) => (c - 1 + slides.length) % slides.length)}
-        className="absolute left-4 top-1/2 -translate-y-1/2 bg-background/20 hover:bg-background/40 text-background p-2 transition-colors"
-        aria-label="Previous slide"
-      >
-        <ChevronLeft size={24} />
-      </button>
-      <button
-        onClick={() => setCurrent((c) => (c + 1) % slides.length)}
-        className="absolute right-4 top-1/2 -translate-y-1/2 bg-background/20 hover:bg-background/40 text-background p-2 transition-colors"
-        aria-label="Next slide"
-      >
-        <ChevronRight size={24} />
-      </button>
-
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
-        {slides.map((_, i) => (
+      {slides.length > 1 && (
+        <>
           <button
-            key={i}
-            onClick={() => setCurrent(i)}
-            className={`w-8 h-0.5 transition-colors ${i === current ? "bg-background" : "bg-background/40"}`}
-            aria-label={`Go to slide ${i + 1}`}
-          />
-        ))}
-      </div>
+            onClick={() => setCurrent((c) => (c - 1 + slides.length) % slides.length)}
+            className="absolute left-4 top-1/2 -translate-y-1/2 bg-background/20 hover:bg-background/40 text-background p-2 transition-colors"
+            aria-label="Previous slide"
+          >
+            <ChevronLeft size={24} />
+          </button>
+          <button
+            onClick={() => setCurrent((c) => (c + 1) % slides.length)}
+            className="absolute right-4 top-1/2 -translate-y-1/2 bg-background/20 hover:bg-background/40 text-background p-2 transition-colors"
+            aria-label="Next slide"
+          >
+            <ChevronRight size={24} />
+          </button>
+
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
+            {slides.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrent(i)}
+                className={`w-8 h-0.5 transition-colors ${i === current ? "bg-background" : "bg-background/40"}`}
+                aria-label={`Go to slide ${i + 1}`}
+              />
+            ))}
+          </div>
+        </>
+      )}
+
     </section>
   );
 }
