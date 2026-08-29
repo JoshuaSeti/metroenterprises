@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import heroImage1 from "@/assets/hero-1.jpg";
 import heroImage2 from "@/assets/hero-2.jpg";
+import { useCarouselSlides } from "@/hooks/use-store-data";
 
 interface Slide {
   image: string;
@@ -31,12 +32,29 @@ const defaultSlides: Slide[] = [
 
 export default function HeroCarousel() {
   const [current, setCurrent] = useState(0);
-  const slides = defaultSlides;
+  const { data: dbSlides } = useCarouselSlides();
+
+  const slides: Slide[] =
+    dbSlides && dbSlides.length > 0
+      ? dbSlides.map((s: any) => ({
+          image: s.image_url,
+          headline: s.headline,
+          subtext: s.subtext || "",
+          ctaLabel: s.cta_label || "",
+          ctaLink: s.cta_link || "/shop",
+        }))
+      : defaultSlides;
 
   useEffect(() => {
+    setCurrent(0);
+  }, [slides.length]);
+
+  useEffect(() => {
+    if (slides.length < 2) return;
     const timer = setInterval(() => setCurrent((c) => (c + 1) % slides.length), 5000);
     return () => clearInterval(timer);
   }, [slides.length]);
+
 
   return (
     <section className="relative w-full h-[70vh] min-h-[500px] overflow-hidden bg-foreground">
