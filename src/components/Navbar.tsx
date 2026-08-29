@@ -58,6 +58,7 @@ export default function Navbar() {
         <div className="md:hidden border-t border-border">
           <nav className="container py-4 flex flex-col gap-4 text-sm font-medium tracking-wide uppercase">
             <Link to="/shop" onClick={() => setMenuOpen(false)}>Shop</Link>
+            <Link to="/group-buys" onClick={() => setMenuOpen(false)}>Group Buys</Link>
             <Link to="/categories" onClick={() => setMenuOpen(false)}>Categories</Link>
             <Link to="/rewards" onClick={() => setMenuOpen(false)}>Rewards</Link>
             {user && <Link to="/wishlist" onClick={() => setMenuOpen(false)}>Wishlist</Link>}
