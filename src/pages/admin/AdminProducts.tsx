@@ -3,6 +3,8 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Plus, Pencil, Trash2 } from "lucide-react";
+import PriceTiers from "@/components/admin/PriceTiers";
+
 
 export default function AdminProducts() {
   const queryClient = useQueryClient();
