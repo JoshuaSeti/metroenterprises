@@ -10,7 +10,9 @@ export default function AdminProducts() {
   const queryClient = useQueryClient();
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState<any>(null);
-  const [form, setForm] = useState({ name: "", slug: "", description: "", price: "", image_url: "", category_id: "", stock_quantity: "0" });
+  const emptyForm = { name: "", slug: "", description: "", price: "", image_url: "", category_id: "", stock_quantity: "0", shipping_time: "", is_group_buy: false, group_buy_min_quantity: "10" };
+  const [form, setForm] = useState(emptyForm);
+
 
   const { data: products, isLoading } = useQuery({
     queryKey: ["admin-products"],
