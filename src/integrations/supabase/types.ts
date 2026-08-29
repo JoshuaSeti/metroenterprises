@@ -329,6 +329,7 @@ export type Database = {
           is_published: boolean
           min_quantity: number
           product_id: string | null
+          share_slug: string | null
           status: string
           title: string
           unit_price: number
@@ -345,6 +346,7 @@ export type Database = {
           is_published?: boolean
           min_quantity?: number
           product_id?: string | null
+          share_slug?: string | null
           status?: string
           title: string
           unit_price?: number
@@ -361,6 +363,7 @@ export type Database = {
           is_published?: boolean
           min_quantity?: number
           product_id?: string | null
+          share_slug?: string | null
           status?: string
           title?: string
           unit_price?: number
@@ -474,16 +477,51 @@ export type Database = {
           },
         ]
       }
+      product_price_tiers: {
+        Row: {
+          created_at: string
+          id: string
+          min_quantity: number
+          product_id: string
+          unit_price: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          min_quantity: number
+          product_id: string
+          unit_price: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          min_quantity?: number
+          product_id?: string
+          unit_price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_price_tiers_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       products: {
         Row: {
           category_id: string | null
           created_at: string
           description: string | null
+          group_buy_min_quantity: number
           id: string
           image_url: string | null
           is_active: boolean
+          is_group_buy: boolean
           name: string
           price: number
+          shipping_time: string | null
           slug: string
           stock_quantity: number
           updated_at: string
@@ -492,11 +530,14 @@ export type Database = {
           category_id?: string | null
           created_at?: string
           description?: string | null
+          group_buy_min_quantity?: number
           id?: string
           image_url?: string | null
           is_active?: boolean
+          is_group_buy?: boolean
           name: string
           price: number
+          shipping_time?: string | null
           slug: string
           stock_quantity?: number
           updated_at?: string
@@ -505,11 +546,14 @@ export type Database = {
           category_id?: string | null
           created_at?: string
           description?: string | null
+          group_buy_min_quantity?: number
           id?: string
           image_url?: string | null
           is_active?: boolean
+          is_group_buy?: boolean
           name?: string
           price?: number
+          shipping_time?: string | null
           slug?: string
           stock_quantity?: number
           updated_at?: string
@@ -784,6 +828,30 @@ export type Database = {
           name?: string
           perks?: string | null
           sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      store_settings: {
+        Row: {
+          created_at: string
+          default_shipping_time: string
+          group_buy_default_days: number
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          default_shipping_time?: string
+          group_buy_default_days?: number
+          id?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          default_shipping_time?: string
+          group_buy_default_days?: number
+          id?: string
           updated_at?: string
         }
         Relationships: []
