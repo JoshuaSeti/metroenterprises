@@ -75,6 +75,7 @@ export default function InquiryChat({ inquiry, isAdmin }: { inquiry: any; isAdmi
                 <div className={`max-w-[75%] px-3 py-2 text-sm whitespace-pre-wrap ${mine ? "bg-foreground text-background" : "bg-background border border-border"}`}>
                   <p className="text-[10px] uppercase tracking-wide opacity-70 mb-1">{m.is_admin ? "Direct-Link team" : "Buyer"}</p>
                   {m.body}
+                  {m.image_paths?.length > 0 && <MessageImages paths={m.image_paths} />}
                 </div>
               </div>
             );
@@ -90,18 +91,42 @@ export default function InquiryChat({ inquiry, isAdmin }: { inquiry: any; isAdmi
         <div ref={endRef} />
       </div>
 
-      <form onSubmit={submit} className="border-t border-border p-3 flex gap-2">
-        <input
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          maxLength={2000}
-          placeholder="Type a message..."
-          className="flex-1 border border-border bg-background px-3 py-2 text-sm"
-        />
-        <button type="submit" disabled={send.isPending || !text.trim()} className="bg-foreground text-background px-4 py-2 disabled:opacity-50">
-          <Send size={16} />
-        </button>
+      <form onSubmit={submit} className="border-t border-border p-3 space-y-2">
+        {files.length > 0 && (
+          <div className="flex flex-wrap gap-2">
+            {files.map((f, idx) => (
+              <span key={idx} className="flex items-center gap-1 border border-border px-2 py-1 text-xs">
+                {f.name.slice(0, 20)}
+                <button type="button" onClick={() => setFiles(files.filter((_, i) => i !== idx))}><X size={12} /></button>
+              </span>
+            ))}
+          </div>
+        )}
+        <div className="flex gap-2">
+          <input
+            ref={fileRef}
+            type="file"
+            accept="image/*"
+            multiple
+            className="hidden"
+            onChange={(e) => setFiles(Array.from(e.target.files || []).slice(0, 6))}
+          />
+          <button type="button" onClick={() => fileRef.current?.click()} aria-label="Attach images" className="border border-border px-3 py-2 hover:bg-secondary transition-colors">
+            <ImagePlus size={16} />
+          </button>
+          <input
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            maxLength={2000}
+            placeholder="Type a message..."
+            className="flex-1 border border-border bg-background px-3 py-2 text-sm"
+          />
+          <button type="submit" disabled={send.isPending || (!text.trim() && files.length === 0)} className="bg-foreground text-background px-4 py-2 disabled:opacity-50">
+            <Send size={16} />
+          </button>
+        </div>
       </form>
+
     </div>
   );
 }
