@@ -18,6 +18,7 @@ import SupportPage from "./pages/SupportPage";
 import CategoriesPage from "./pages/CategoriesPage";
 import WishlistPage from "./pages/WishlistPage";
 import RewardsPage from "./pages/RewardsPage";
+import GroupBuysPage from "./pages/GroupBuysPage";
 import InfluencerDashboard from "./pages/InfluencerDashboard";
 import AdminLayout from "./pages/admin/AdminLayout";
 import AdminAuthPage from "./pages/admin/AdminAuthPage";
