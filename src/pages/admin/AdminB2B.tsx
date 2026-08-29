@@ -55,25 +55,47 @@ export default function AdminB2B() {
         <div className="grid lg:grid-cols-2 gap-6">
           <div className="border border-border divide-y divide-border max-h-[520px] overflow-y-auto">
             {inquiries.map((i) => (
-              <button
+              <div
                 key={i.id}
+                role="button"
+                tabIndex={0}
                 onClick={() => setSelectedId(i.id)}
-                className={`w-full text-left p-4 transition-colors ${selectedId === i.id ? "bg-secondary" : "hover:bg-secondary/50"}`}
+                onKeyDown={(e) => { if (e.key === "Enter") setSelectedId(i.id); }}
+                className={`w-full text-left p-4 transition-colors cursor-pointer ${selectedId === i.id ? "bg-secondary" : "hover:bg-secondary/50"}`}
               >
-                <p className="text-sm font-medium">{i.product_name}</p>
+                <p className="text-sm font-medium">
+                  {i.product_name}
+                  {i.is_kept && <span className="ml-2 text-[10px] uppercase tracking-wide border border-border px-1 py-0.5">Kept</span>}
+                </p>
                 <p className="text-xs text-muted-foreground">
                   {i.categories?.name || "Uncategorised"}
                   {i.quantity ? ` · ${i.quantity} units` : ""} · {new Date(i.created_at).toLocaleDateString()}
                 </p>
-                <select
-                  value={i.status}
-                  onClick={(e) => e.stopPropagation()}
-                  onChange={(e) => updateStatus.mutate({ id: i.id, status: e.target.value })}
-                  className="mt-2 border border-border bg-background px-2 py-1 text-xs"
-                >
-                  {statuses.map((s) => <option key={s} value={s}>{s}</option>)}
-                </select>
-              </button>
+                <div className="mt-2 flex items-center gap-3">
+                  <select
+                    value={i.status}
+                    onClick={(e) => e.stopPropagation()}
+                    onChange={(e) => updateStatus.mutate({ id: i.id, status: e.target.value })}
+                    className="border border-border bg-background px-2 py-1 text-xs"
+                  >
+                    {statuses.map((s) => <option key={s} value={s}>{s}</option>)}
+                  </select>
+                  <label className="flex items-center gap-1 text-xs" onClick={(e) => e.stopPropagation()}>
+                    <input
+                      type="checkbox"
+                      checked={!!i.is_kept}
+                      onChange={(e) =>
+                        toggleKeep.mutate(
+                          { id: i.id, is_kept: e.target.checked },
+                          { onSuccess: () => toast.success(e.target.checked ? "Chat kept" : "Chat will auto-delete"), onError: (err: any) => toast.error(err.message) }
+                        )
+                      }
+                    />
+                    Keep
+                  </label>
+                </div>
+              </div>
+
             ))}
           </div>
 
