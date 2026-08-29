@@ -120,7 +120,15 @@ export default function AdminProducts() {
               {categories?.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
             </select>
             <textarea placeholder="Description" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="md:col-span-2 border border-border px-3 py-2 text-sm bg-background focus:outline-none focus:ring-1 focus:ring-ring resize-none" rows={3} />
+            <input placeholder="Shipping time (e.g. 2-4 weeks)" value={form.shipping_time} onChange={(e) => setForm({ ...form, shipping_time: e.target.value })} className="border border-border px-3 py-2 text-sm bg-background focus:outline-none focus:ring-1 focus:ring-ring" />
+            <input placeholder="Group buy threshold (units)" type="number" min="1" value={form.group_buy_min_quantity} onChange={(e) => setForm({ ...form, group_buy_min_quantity: e.target.value })} className="border border-border px-3 py-2 text-sm bg-background focus:outline-none focus:ring-1 focus:ring-ring" />
+            <label className="md:col-span-2 flex items-center gap-2 text-sm">
+              <input type="checkbox" checked={form.is_group_buy} onChange={(e) => setForm({ ...form, is_group_buy: e.target.checked })} />
+              Available in the group buy catalog
+            </label>
+            {editing && <PriceTiers productId={editing.id} />}
           </div>
+
           <div className="flex gap-2 mt-4">
             <button onClick={() => saveMutation.mutate()} disabled={saveMutation.isPending} className="bg-foreground text-background px-6 py-2 text-xs font-semibold uppercase tracking-wide hover:bg-primary transition-colors disabled:opacity-50">
               {saveMutation.isPending ? "Saving..." : "Save"}
