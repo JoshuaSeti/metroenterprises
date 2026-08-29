@@ -41,7 +41,11 @@ export default function AdminProducts() {
         image_url: form.image_url || null,
         category_id: form.category_id || null,
         stock_quantity: parseInt(form.stock_quantity) || 0,
+        shipping_time: form.shipping_time || null,
+        is_group_buy: form.is_group_buy,
+        group_buy_min_quantity: Math.max(1, parseInt(form.group_buy_min_quantity) || 10),
       };
+
       if (editing) {
         const { error } = await supabase.from("products").update(payload).eq("id", editing.id);
         if (error) throw error;
