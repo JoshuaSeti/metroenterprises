@@ -2,12 +2,13 @@ import { NavLink } from "react-router-dom";
 
 const tabs = [
   { label: "Products", to: "/shop", end: true },
-  { label: "Group Buys", to: "/shop/group-buys", end: false },
+  { label: "Group Buys", to: "/shop/group-buys", end: true },
+  { label: "Group Buy Catalog", to: "/shop/group-buys/catalog", end: false },
 ];
 
 export default function ShopTabs() {
   return (
-    <div className="flex gap-6 border-b border-border mb-8">
+    <div className="flex flex-wrap gap-6 border-b border-border mb-8">
       {tabs.map((t) => (
         <NavLink
           key={t.to}
