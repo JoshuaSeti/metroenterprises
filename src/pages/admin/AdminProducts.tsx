@@ -74,7 +74,7 @@ export default function AdminProducts() {
   });
 
   const resetForm = () => {
-    setForm({ name: "", slug: "", description: "", price: "", image_url: "", category_id: "", stock_quantity: "0" });
+    setForm(emptyForm);
     setEditing(null);
     setShowForm(false);
   };
@@ -88,10 +88,14 @@ export default function AdminProducts() {
       image_url: p.image_url || "",
       category_id: p.category_id || "",
       stock_quantity: String(p.stock_quantity),
+      shipping_time: p.shipping_time || "",
+      is_group_buy: !!p.is_group_buy,
+      group_buy_min_quantity: String(p.group_buy_min_quantity ?? 10),
     });
     setEditing(p);
     setShowForm(true);
   };
+
 
   return (
     <div>
