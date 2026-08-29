@@ -18,6 +18,7 @@ const navItems = [
   { label: "Users", path: "/admin/users", icon: Users },
   { label: "Rewards", path: "/admin/rewards", icon: Gift },
   { label: "Group Buys", path: "/admin/group-buys", icon: Users2 },
+  { label: "B2B Inquiries", path: "/admin/b2b", icon: MessageSquare },
 ];
 
 export default function AdminLayout() {
