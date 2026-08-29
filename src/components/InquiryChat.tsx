@@ -1,13 +1,29 @@
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-import { Send } from "lucide-react";
+import { Send, ImagePlus, X } from "lucide-react";
 import { useInquiryMessages, useSendMessage, useSignedImageUrls } from "@/hooks/use-b2b";
+
+function MessageImages({ paths }: { paths: string[] }) {
+  const { data: urls } = useSignedImageUrls(paths);
+  if (!urls || urls.length === 0) return null;
+  return (
+    <div className="flex flex-wrap gap-2 mt-2">
+      {urls.map((url) => (
+        <a key={url} href={url} target="_blank" rel="noreferrer">
+          <img src={url} alt="Chat attachment" className="h-24 w-24 object-cover border border-border" />
+        </a>
+      ))}
+    </div>
+  );
+}
 
 export default function InquiryChat({ inquiry, isAdmin }: { inquiry: any; isAdmin: boolean }) {
   const { data: messages, isLoading } = useInquiryMessages(inquiry?.id);
   const send = useSendMessage(inquiry?.id);
   const { data: images } = useSignedImageUrls(inquiry?.image_paths);
   const [text, setText] = useState("");
+  const [files, setFiles] = useState<File[]>([]);
+  const fileRef = useRef<HTMLInputElement>(null);
   const endRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => { endRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages?.length]);
@@ -15,12 +31,17 @@ export default function InquiryChat({ inquiry, isAdmin }: { inquiry: any; isAdmi
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     const body = text.trim();
-    if (!body) return;
-    send.mutate({ body, isAdmin }, {
-      onSuccess: () => setText(""),
+    if (!body && files.length === 0) return;
+    send.mutate({ body, isAdmin, files }, {
+      onSuccess: () => {
+        setText("");
+        setFiles([]);
+        if (fileRef.current) fileRef.current.value = "";
+      },
       onError: (err: any) => toast.error(err.message),
     });
   };
+
 
   return (
     <div className="border border-border flex flex-col h-[520px]">
