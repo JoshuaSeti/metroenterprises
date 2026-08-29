@@ -1,9 +1,10 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useProduct, useDiscountsForProduct } from "@/hooks/use-store-data";
+import { useStoreSettings, shippingTimeFor, useProductTiers } from "@/hooks/use-store-settings";
 import { useParams } from "react-router-dom";
 import { useCart } from "@/hooks/use-cart";
-import { Minus, Plus, Tag } from "lucide-react";
+import { Minus, Plus, Tag, Truck } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -54,6 +55,8 @@ export default function ProductPage() {
   const { slug } = useParams<{ slug: string }>();
   const { data: product, isLoading } = useProduct(slug || "");
   const { data: discounts } = useDiscountsForProduct(product?.id || "");
+  const { data: settings } = useStoreSettings();
+  const { data: tiers } = useProductTiers(product?.id);
   const { addItem } = useCart();
   const [qty, setQty] = useState(1);
 
@@ -144,7 +147,29 @@ export default function ProductPage() {
             </div>
 
             {product.description && (
-              <p className="text-muted-foreground leading-relaxed mb-8">{product.description}</p>
+              <p className="text-muted-foreground leading-relaxed mb-6">{product.description}</p>
+            )}
+
+            {shippingTimeFor(product, settings) && (
+              <p className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
+                <Truck size={14} /> Shipping time: {shippingTimeFor(product, settings)}
+              </p>
+            )}
+
+            {tiers && tiers.length > 0 && (
+              <div className="border border-border mb-8">
+                <p className="px-4 py-2 text-xs uppercase tracking-wide font-semibold border-b border-border">Bulk pricing</p>
+                <table className="w-full text-sm">
+                  <tbody>
+                    {tiers.map((t) => (
+                      <tr key={t.id} className="border-b border-border last:border-0">
+                        <td className="px-4 py-2">{t.min_quantity}+ units</td>
+                        <td className="px-4 py-2 text-right font-medium">${Number(t.unit_price).toFixed(2)} / unit</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             )}
 
             <div className="flex items-center gap-4 mb-6">
