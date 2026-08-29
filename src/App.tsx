@@ -33,6 +33,7 @@ import AdminCampaigns from "./pages/admin/AdminCampaigns";
 import AdminCarousel from "./pages/admin/AdminCarousel";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminRewards from "./pages/admin/AdminRewards";
+import AdminGroupBuys from "./pages/admin/AdminGroupBuys";
 
 const queryClient = new QueryClient();
 
@@ -58,6 +59,7 @@ const App = () => (
               <Route path="/categories" element={<CategoriesPage />} />
               <Route path="/wishlist" element={<WishlistPage />} />
               <Route path="/rewards" element={<RewardsPage />} />
+              <Route path="/group-buys" element={<GroupBuysPage />} />
               <Route path="/influencer" element={<InfluencerDashboard />} />
               <Route path="/admin/login" element={<AdminAuthPage />} />
               <Route path="/admin" element={<AdminLayout />}>
@@ -72,6 +74,7 @@ const App = () => (
                 <Route path="carousel" element={<AdminCarousel />} />
                 <Route path="users" element={<AdminUsers />} />
                 <Route path="rewards" element={<AdminRewards />} />
+                <Route path="group-buys" element={<AdminGroupBuys />} />
               </Route>
               <Route path="*" element={<NotFound />} />
             </Routes>

@@ -20,6 +20,7 @@ export default function Navbar() {
 
         <nav className="hidden md:flex items-center gap-8 text-sm font-medium tracking-wide uppercase">
           <Link to="/shop" className="hover:text-primary transition-colors">Shop</Link>
+          <Link to="/group-buys" className="hover:text-primary transition-colors">Group Buys</Link>
           <Link to="/categories" className="hover:text-primary transition-colors">Categories</Link>
           <Link to="/rewards" className="hover:text-primary transition-colors">Rewards</Link>
         </nav>
