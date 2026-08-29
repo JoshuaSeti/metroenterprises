@@ -1,7 +1,7 @@
 import { useAuth } from "@/hooks/use-auth";
 import { Link, Outlet, useLocation, Navigate } from "react-router-dom";
 import { useEffect } from "react";
-import { LayoutDashboard, Package, Tag, TicketPercent, Megaphone, Image, ShoppingCart, MessageSquare, Users, Gift, LogOut, Loader2, Users2 } from "lucide-react";
+import { LayoutDashboard, Package, Tag, TicketPercent, Megaphone, Image, ShoppingCart, MessageSquare, Users, Gift, LogOut, Loader2, Users2, Settings } from "lucide-react";
 import brandLogoAsset from "@/assets/direct-link-logo.jpg.asset.json";
 const brandLogo = brandLogoAsset.url;
 
@@ -19,6 +19,7 @@ const navItems = [
   { label: "Rewards", path: "/admin/rewards", icon: Gift },
   { label: "Group Buys", path: "/admin/group-buys", icon: Users2 },
   { label: "B2B Inquiries", path: "/admin/b2b", icon: MessageSquare },
+  { label: "Settings", path: "/admin/settings", icon: Settings },
 ];
 
 export default function AdminLayout() {
