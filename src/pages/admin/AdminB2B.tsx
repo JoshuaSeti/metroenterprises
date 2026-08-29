@@ -3,6 +3,8 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
 import InquiryChat from "@/components/InquiryChat";
+import { useToggleInquiryKeep } from "@/hooks/use-b2b";
+
 
 const statuses = ["open", "in_progress", "quoted", "closed"] as const;
 
