@@ -1,0 +1,1 @@
+REVOKE EXECUTE ON FUNCTION public.cleanup_old_b2b_chats() FROM PUBLIC, anon, authenticated;
