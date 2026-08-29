@@ -19,6 +19,9 @@ import CategoriesPage from "./pages/CategoriesPage";
 import WishlistPage from "./pages/WishlistPage";
 import RewardsPage from "./pages/RewardsPage";
 import GroupBuysPage from "./pages/GroupBuysPage";
+import GroupBuyCatalogPage from "./pages/GroupBuyCatalogPage";
+import GroupBuyProductPage from "./pages/GroupBuyProductPage";
+import GroupBuyDetailPage from "./pages/GroupBuyDetailPage";
 import B2BPage from "./pages/B2BPage";
 import B2BChatPage from "./pages/B2BChatPage";
 import InfluencerDashboard from "./pages/InfluencerDashboard";
@@ -37,6 +40,7 @@ import AdminUsers from "./pages/admin/AdminUsers";
 import AdminRewards from "./pages/admin/AdminRewards";
 import AdminGroupBuys from "./pages/admin/AdminGroupBuys";
 import AdminB2B from "./pages/admin/AdminB2B";
+import AdminSettings from "./pages/admin/AdminSettings";
 
 const queryClient = new QueryClient();
 
@@ -63,6 +67,9 @@ const App = () => (
               <Route path="/wishlist" element={<WishlistPage />} />
               <Route path="/rewards" element={<RewardsPage />} />
               <Route path="/shop/group-buys" element={<GroupBuysPage />} />
+              <Route path="/shop/group-buys/catalog" element={<GroupBuyCatalogPage />} />
+              <Route path="/shop/group-buys/product/:slug" element={<GroupBuyProductPage />} />
+              <Route path="/group-buy/:key" element={<GroupBuyDetailPage />} />
               <Route path="/group-buys" element={<Navigate to="/shop/group-buys" replace />} />
               <Route path="/b2b" element={<B2BPage />} />
               <Route path="/b2b/:id" element={<B2BChatPage />} />
@@ -82,6 +89,7 @@ const App = () => (
                 <Route path="rewards" element={<AdminRewards />} />
                 <Route path="group-buys" element={<AdminGroupBuys />} />
                 <Route path="b2b" element={<AdminB2B />} />
+                <Route path="settings" element={<AdminSettings />} />
               </Route>
               <Route path="*" element={<NotFound />} />
             </Routes>

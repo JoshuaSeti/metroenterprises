@@ -3,12 +3,16 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Plus, Pencil, Trash2 } from "lucide-react";
+import PriceTiers from "@/components/admin/PriceTiers";
+
 
 export default function AdminProducts() {
   const queryClient = useQueryClient();
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState<any>(null);
-  const [form, setForm] = useState({ name: "", slug: "", description: "", price: "", image_url: "", category_id: "", stock_quantity: "0" });
+  const emptyForm = { name: "", slug: "", description: "", price: "", image_url: "", category_id: "", stock_quantity: "0", shipping_time: "", is_group_buy: false, group_buy_min_quantity: "10" };
+  const [form, setForm] = useState(emptyForm);
+
 
   const { data: products, isLoading } = useQuery({
     queryKey: ["admin-products"],
@@ -37,7 +41,11 @@ export default function AdminProducts() {
         image_url: form.image_url || null,
         category_id: form.category_id || null,
         stock_quantity: parseInt(form.stock_quantity) || 0,
+        shipping_time: form.shipping_time || null,
+        is_group_buy: form.is_group_buy,
+        group_buy_min_quantity: Math.max(1, parseInt(form.group_buy_min_quantity) || 10),
       };
+
       if (editing) {
         const { error } = await supabase.from("products").update(payload).eq("id", editing.id);
         if (error) throw error;
@@ -66,7 +74,7 @@ export default function AdminProducts() {
   });
 
   const resetForm = () => {
-    setForm({ name: "", slug: "", description: "", price: "", image_url: "", category_id: "", stock_quantity: "0" });
+    setForm(emptyForm);
     setEditing(null);
     setShowForm(false);
   };
@@ -80,10 +88,14 @@ export default function AdminProducts() {
       image_url: p.image_url || "",
       category_id: p.category_id || "",
       stock_quantity: String(p.stock_quantity),
+      shipping_time: p.shipping_time || "",
+      is_group_buy: !!p.is_group_buy,
+      group_buy_min_quantity: String(p.group_buy_min_quantity ?? 10),
     });
     setEditing(p);
     setShowForm(true);
   };
+
 
   return (
     <div>
@@ -108,7 +120,15 @@ export default function AdminProducts() {
               {categories?.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
             </select>
             <textarea placeholder="Description" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="md:col-span-2 border border-border px-3 py-2 text-sm bg-background focus:outline-none focus:ring-1 focus:ring-ring resize-none" rows={3} />
+            <input placeholder="Shipping time (e.g. 2-4 weeks)" value={form.shipping_time} onChange={(e) => setForm({ ...form, shipping_time: e.target.value })} className="border border-border px-3 py-2 text-sm bg-background focus:outline-none focus:ring-1 focus:ring-ring" />
+            <input placeholder="Group buy threshold (units)" type="number" min="1" value={form.group_buy_min_quantity} onChange={(e) => setForm({ ...form, group_buy_min_quantity: e.target.value })} className="border border-border px-3 py-2 text-sm bg-background focus:outline-none focus:ring-1 focus:ring-ring" />
+            <label className="md:col-span-2 flex items-center gap-2 text-sm">
+              <input type="checkbox" checked={form.is_group_buy} onChange={(e) => setForm({ ...form, is_group_buy: e.target.checked })} />
+              Available in the group buy catalog
+            </label>
+            {editing && <PriceTiers productId={editing.id} />}
           </div>
+
           <div className="flex gap-2 mt-4">
             <button onClick={() => saveMutation.mutate()} disabled={saveMutation.isPending} className="bg-foreground text-background px-6 py-2 text-xs font-semibold uppercase tracking-wide hover:bg-primary transition-colors disabled:opacity-50">
               {saveMutation.isPending ? "Saving..." : "Save"}
