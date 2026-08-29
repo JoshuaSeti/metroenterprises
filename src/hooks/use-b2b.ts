@@ -70,20 +70,46 @@ export function useInquiryMessages(inquiryId?: string) {
 export function useSendMessage(inquiryId?: string) {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async ({ body, isAdmin }: { body: string; isAdmin: boolean }) => {
+    mutationFn: async ({ body, isAdmin, files = [] }: { body: string; isAdmin: boolean; files?: File[] }) => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("You must be signed in");
+
+      const paths: string[] = [];
+      for (const file of files.slice(0, 6)) {
+        const ext = file.name.split(".").pop()?.slice(0, 8) || "jpg";
+        const path = `${user.id}/${crypto.randomUUID()}.${ext}`;
+        const { error } = await supabase.storage.from("b2b-inquiries").upload(path, file);
+        if (error) throw error;
+        paths.push(path);
+      }
+
       const { error } = await supabase.from("b2b_messages").insert({
         inquiry_id: inquiryId!,
         sender_id: user.id,
         is_admin: isAdmin,
         body: body.trim().slice(0, 2000),
-      });
+        image_paths: paths,
+      } as any);
       if (error) throw error;
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ["b2b-messages", inquiryId] }),
   });
 }
+
+export function useToggleInquiryKeep() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id, is_kept }: { id: string; is_kept: boolean }) => {
+      const { error } = await supabase.from("b2b_inquiries").update({ is_kept } as any).eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["admin-b2b-inquiries"] });
+      qc.invalidateQueries({ queryKey: ["b2b-inquiries"] });
+    },
+  });
+}
+
 
 export function useCreateInquiry() {
   const qc = useQueryClient();

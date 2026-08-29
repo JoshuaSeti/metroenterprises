@@ -1,13 +1,29 @@
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-import { Send } from "lucide-react";
+import { Send, ImagePlus, X } from "lucide-react";
 import { useInquiryMessages, useSendMessage, useSignedImageUrls } from "@/hooks/use-b2b";
+
+function MessageImages({ paths }: { paths: string[] }) {
+  const { data: urls } = useSignedImageUrls(paths);
+  if (!urls || urls.length === 0) return null;
+  return (
+    <div className="flex flex-wrap gap-2 mt-2">
+      {urls.map((url) => (
+        <a key={url} href={url} target="_blank" rel="noreferrer">
+          <img src={url} alt="Chat attachment" className="h-24 w-24 object-cover border border-border" />
+        </a>
+      ))}
+    </div>
+  );
+}
 
 export default function InquiryChat({ inquiry, isAdmin }: { inquiry: any; isAdmin: boolean }) {
   const { data: messages, isLoading } = useInquiryMessages(inquiry?.id);
   const send = useSendMessage(inquiry?.id);
   const { data: images } = useSignedImageUrls(inquiry?.image_paths);
   const [text, setText] = useState("");
+  const [files, setFiles] = useState<File[]>([]);
+  const fileRef = useRef<HTMLInputElement>(null);
   const endRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => { endRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages?.length]);
@@ -15,12 +31,17 @@ export default function InquiryChat({ inquiry, isAdmin }: { inquiry: any; isAdmi
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     const body = text.trim();
-    if (!body) return;
-    send.mutate({ body, isAdmin }, {
-      onSuccess: () => setText(""),
+    if (!body && files.length === 0) return;
+    send.mutate({ body, isAdmin, files }, {
+      onSuccess: () => {
+        setText("");
+        setFiles([]);
+        if (fileRef.current) fileRef.current.value = "";
+      },
       onError: (err: any) => toast.error(err.message),
     });
   };
+
 
   return (
     <div className="border border-border flex flex-col h-[520px]">
@@ -54,6 +75,7 @@ export default function InquiryChat({ inquiry, isAdmin }: { inquiry: any; isAdmi
                 <div className={`max-w-[75%] px-3 py-2 text-sm whitespace-pre-wrap ${mine ? "bg-foreground text-background" : "bg-background border border-border"}`}>
                   <p className="text-[10px] uppercase tracking-wide opacity-70 mb-1">{m.is_admin ? "Direct-Link team" : "Buyer"}</p>
                   {m.body}
+                  {m.image_paths?.length > 0 && <MessageImages paths={m.image_paths} />}
                 </div>
               </div>
             );
@@ -69,18 +91,42 @@ export default function InquiryChat({ inquiry, isAdmin }: { inquiry: any; isAdmi
         <div ref={endRef} />
       </div>
 
-      <form onSubmit={submit} className="border-t border-border p-3 flex gap-2">
-        <input
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          maxLength={2000}
-          placeholder="Type a message..."
-          className="flex-1 border border-border bg-background px-3 py-2 text-sm"
-        />
-        <button type="submit" disabled={send.isPending || !text.trim()} className="bg-foreground text-background px-4 py-2 disabled:opacity-50">
-          <Send size={16} />
-        </button>
+      <form onSubmit={submit} className="border-t border-border p-3 space-y-2">
+        {files.length > 0 && (
+          <div className="flex flex-wrap gap-2">
+            {files.map((f, idx) => (
+              <span key={idx} className="flex items-center gap-1 border border-border px-2 py-1 text-xs">
+                {f.name.slice(0, 20)}
+                <button type="button" onClick={() => setFiles(files.filter((_, i) => i !== idx))}><X size={12} /></button>
+              </span>
+            ))}
+          </div>
+        )}
+        <div className="flex gap-2">
+          <input
+            ref={fileRef}
+            type="file"
+            accept="image/*"
+            multiple
+            className="hidden"
+            onChange={(e) => setFiles(Array.from(e.target.files || []).slice(0, 6))}
+          />
+          <button type="button" onClick={() => fileRef.current?.click()} aria-label="Attach images" className="border border-border px-3 py-2 hover:bg-secondary transition-colors">
+            <ImagePlus size={16} />
+          </button>
+          <input
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            maxLength={2000}
+            placeholder="Type a message..."
+            className="flex-1 border border-border bg-background px-3 py-2 text-sm"
+          />
+          <button type="submit" disabled={send.isPending || (!text.trim() && files.length === 0)} className="bg-foreground text-background px-4 py-2 disabled:opacity-50">
+            <Send size={16} />
+          </button>
+        </div>
       </form>
+
     </div>
   );
 }

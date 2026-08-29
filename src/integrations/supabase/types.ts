@@ -21,6 +21,7 @@ export type Database = {
           details: string | null
           id: string
           image_paths: string[]
+          is_kept: boolean
           product_name: string
           quantity: number | null
           status: Database["public"]["Enums"]["b2b_status"]
@@ -34,6 +35,7 @@ export type Database = {
           details?: string | null
           id?: string
           image_paths?: string[]
+          is_kept?: boolean
           product_name: string
           quantity?: number | null
           status?: Database["public"]["Enums"]["b2b_status"]
@@ -47,6 +49,7 @@ export type Database = {
           details?: string | null
           id?: string
           image_paths?: string[]
+          is_kept?: boolean
           product_name?: string
           quantity?: number | null
           status?: Database["public"]["Enums"]["b2b_status"]
@@ -66,25 +69,28 @@ export type Database = {
       }
       b2b_messages: {
         Row: {
-          body: string
+          body: string | null
           created_at: string
           id: string
+          image_paths: string[]
           inquiry_id: string
           is_admin: boolean
           sender_id: string
         }
         Insert: {
-          body: string
+          body?: string | null
           created_at?: string
           id?: string
+          image_paths?: string[]
           inquiry_id: string
           is_admin?: boolean
           sender_id: string
         }
         Update: {
-          body?: string
+          body?: string | null
           created_at?: string
           id?: string
+          image_paths?: string[]
           inquiry_id?: string
           is_admin?: boolean
           sender_id?: string
@@ -941,6 +947,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      cleanup_old_b2b_chats: { Args: never; Returns: undefined }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
