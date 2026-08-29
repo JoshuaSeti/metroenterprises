@@ -93,7 +93,7 @@ export default function GroupBuysPage() {
 
         <div className="flex flex-wrap items-start justify-between gap-4 mb-8">
           <div>
-            <h1 className="font-heading text-3xl md:text-4xl font-bold mb-2">Group Buys</h1>
+            <h2 className="font-heading text-2xl font-bold mb-2">Active Group Buys</h2>
             <p className="text-muted-foreground max-w-xl">
               Team up with other buyers to hit bulk thresholds and unlock wholesale pricing. Join an active group buy or start your own.
             </p>
