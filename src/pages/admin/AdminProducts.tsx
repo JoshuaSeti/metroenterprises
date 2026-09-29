@@ -157,7 +157,7 @@ export default function AdminProducts() {
                 <tr key={p.id} className="border-b border-border last:border-0 hover:bg-secondary/30 transition-colors">
                   <td className="px-4 py-3 font-medium">{p.name}</td>
                   <td className="px-4 py-3 text-muted-foreground">{(p as any).categories?.name || "—"}</td>
-                  <td className="px-4 py-3">${Number(p.price).toFixed(2)}</td>
+                  <td className="px-4 py-3">K{Number(p.price).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
                   <td className="px-4 py-3">{p.stock_quantity}</td>
                   <td className="px-4 py-3">
                     <div className="flex gap-2">

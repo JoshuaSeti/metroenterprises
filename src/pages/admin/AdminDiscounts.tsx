@@ -228,7 +228,7 @@ export default function AdminDiscounts() {
                 <tr key={d.id} className="border-b border-border last:border-0 hover:bg-secondary/30 transition-colors">
                   <td className="px-4 py-3 font-medium">{d.name}</td>
                   <td className="px-4 py-3 text-muted-foreground">{d.type}</td>
-                  <td className="px-4 py-3">{d.type === "percentage" ? `${d.value}%` : `$${Number(d.value).toFixed(2)}`}</td>
+                  <td className="px-4 py-3">{d.type === "percentage" ? `${d.value}%` : `K${Number(d.value).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})}`}</td>
                   <td className="px-4 py-3 text-xs text-muted-foreground max-w-[200px] truncate">{appliesTo.join(", ") || "All"}</td>
                   <td className="px-4 py-3">
                     <button onClick={() => toggleActive.mutate({ id: d.id, is_active: !d.is_active })} className={d.is_active ? "text-primary" : "text-muted-foreground"}>

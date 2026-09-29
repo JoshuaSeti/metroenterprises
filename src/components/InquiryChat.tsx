@@ -50,7 +50,7 @@ export default function InquiryChat({ inquiry, isAdmin }: { inquiry: any; isAdmi
         <p className="text-xs text-muted-foreground">
           {inquiry.categories?.name || "Uncategorised"}
           {inquiry.quantity ? ` · ${inquiry.quantity} units` : ""}
-          {inquiry.target_price ? ` · target $${Number(inquiry.target_price).toFixed(2)}` : ""}
+          {inquiry.target_price ? ` · target K${Number(inquiry.target_price).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})}` : ""}
           {` · ${inquiry.status}`}
         </p>
         {images && images.length > 0 && (

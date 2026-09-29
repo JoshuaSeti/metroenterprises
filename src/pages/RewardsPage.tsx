@@ -37,14 +37,14 @@ export default function RewardsPage() {
           <h1 className="font-heading text-3xl font-bold">{settings?.program_name || "Rewards"}</h1>
         </div>
         <p className="text-muted-foreground text-sm mb-10">
-          Earn {settings?.points_per_currency ?? 1} point per $1 spent. Redeem {settings?.points_per_currency_redeem ?? 100} points for $1 off.
+          Earn {settings?.points_per_currency ?? 1} point per K1 spent. Redeem {settings?.points_per_currency_redeem ?? 100} points for K1 off.
         </p>
 
         {user ? (
           <div className="border border-border p-8 mb-12">
             <p className="text-xs uppercase tracking-wide text-muted-foreground mb-2">Your balance</p>
             <p className="font-heading text-4xl font-bold">{balance} pts</p>
-            <p className="text-sm text-muted-foreground mt-1">Worth ${value.toFixed(2)}</p>
+            <p className="text-sm text-muted-foreground mt-1">Worth K{value.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})}</p>
             {current && (
               <p className="text-sm mt-4">
                 Current tier: <span className="font-semibold" style={{ color: current.color }}>{current.name}</span>

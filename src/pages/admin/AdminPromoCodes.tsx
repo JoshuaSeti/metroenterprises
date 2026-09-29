@@ -103,7 +103,7 @@ export default function AdminPromoCodes() {
               <tr key={c.id} className="border-b border-border last:border-0 hover:bg-secondary/30 transition-colors">
                 <td className="px-4 py-3 font-mono font-medium">{c.code}</td>
                 <td className="px-4 py-3 text-muted-foreground">{c.type}</td>
-                <td className="px-4 py-3">{c.type === "percentage" ? `${c.value}%` : `$${Number(c.value).toFixed(2)}`}</td>
+                <td className="px-4 py-3">{c.type === "percentage" ? `${c.value}%` : `K${Number(c.value).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})}`}</td>
                 <td className="px-4 py-3">{c.usage_count}{c.usage_limit ? `/${c.usage_limit}` : ""}</td>
                 <td className="px-4 py-3">{c.is_active ? "✓" : "✗"}</td>
                 <td className="px-4 py-3"><button onClick={() => deleteMutation.mutate(c.id)} className="hover:text-destructive"><Trash2 size={14} /></button></td>

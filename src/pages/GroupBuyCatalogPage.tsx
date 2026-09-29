@@ -49,10 +49,10 @@ export default function GroupBuyCatalogPage() {
                     )}
                     <h2 className="font-heading font-bold text-base mb-2">{p.name}</h2>
                     <p className="text-sm mb-1">
-                      <span className="font-semibold">${Number(p.price).toFixed(2)}</span>
+                      <span className="font-semibold">K{Number(p.price).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})}</span>
                       <span className="text-muted-foreground"> / unit</span>
                       {bestPrice < Number(p.price) && (
-                        <span className="text-muted-foreground"> · down to ${bestPrice.toFixed(2)} in bulk</span>
+                        <span className="text-muted-foreground"> · down to K{bestPrice.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})} in bulk</span>
                       )}
                     </p>
                     <p className="flex items-center gap-1 text-xs text-muted-foreground">

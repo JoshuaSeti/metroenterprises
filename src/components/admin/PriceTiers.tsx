@@ -43,13 +43,13 @@ export default function PriceTiers({ productId }: { productId: string }) {
   return (
     <div className="md:col-span-2 border border-border p-4">
       <p className="text-xs uppercase tracking-wide font-semibold mb-1">Bulk pricing tiers</p>
-      <p className="text-xs text-muted-foreground mb-3">e.g. $1.00 at the minimum order quantity, $0.80 once 500 units are committed.</p>
+      <p className="text-xs text-muted-foreground mb-3">e.g. K20.00 at the minimum order quantity, K16.00 once 500 units are committed.</p>
 
       {tiers && tiers.length > 0 && (
         <div className="border border-border divide-y divide-border mb-3">
           {tiers.map((t) => (
             <div key={t.id} className="flex items-center justify-between px-3 py-2 text-sm">
-              <span>{t.min_quantity}+ units → ${Number(t.unit_price).toFixed(2)} / unit</span>
+              <span>{t.min_quantity}+ units → K{Number(t.unit_price).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})} / unit</span>
               <button type="button" onClick={() => remove.mutate(t.id)} className="text-muted-foreground hover:text-destructive">
                 <Trash2 size={14} />
               </button>

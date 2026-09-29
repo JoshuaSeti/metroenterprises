@@ -171,11 +171,11 @@ export default function AdminRewards() {
             </label>
           </div>
           <div>
-            <label className={label}>Points earned per $1 spent</label>
+            <label className={label}>Points earned per K1 spent</label>
             <input type="number" step="0.01" className={input} value={form.points_per_currency} onChange={(e) => setForm({ ...form, points_per_currency: Number(e.target.value) })} />
           </div>
           <div>
-            <label className={label}>Points needed for $1 redeemed</label>
+            <label className={label}>Points needed for K1 redeemed</label>
             <input type="number" step="1" className={input} value={form.points_per_currency_redeem} onChange={(e) => setForm({ ...form, points_per_currency_redeem: Number(e.target.value) })} />
           </div>
           <div>

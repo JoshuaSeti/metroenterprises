@@ -25,9 +25,9 @@ export default function AdminOverview() {
   });
 
   const cards = [
-    { label: "Total Revenue", value: `$${(stats?.totalRevenue || 0).toFixed(2)}`, icon: DollarSign },
+    { label: "Total Revenue", value: `K${(stats?.totalRevenue || 0).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})}`, icon: DollarSign },
     { label: "Orders", value: stats?.orderCount || 0, icon: ShoppingCart },
-    { label: "Avg Order Value", value: `$${(stats?.avgOrder || 0).toFixed(2)}`, icon: TrendingUp },
+    { label: "Avg Order Value", value: `K${(stats?.avgOrder || 0).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})}`, icon: TrendingUp },
     { label: "Products", value: stats?.productCount || 0, icon: Package },
   ];
 

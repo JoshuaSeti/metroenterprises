@@ -55,7 +55,7 @@ export default function AdminOrders() {
                 <td className="px-4 py-3 text-muted-foreground">
                   {o.order_items?.map((i: any) => `${i.products?.name} ×${i.quantity}`).join(", ") || "—"}
                 </td>
-                <td className="px-4 py-3 font-medium">${Number(o.total).toFixed(2)}</td>
+                <td className="px-4 py-3 font-medium">K{Number(o.total).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
                 <td className="px-4 py-3">
                   <select
                     value={o.status}
