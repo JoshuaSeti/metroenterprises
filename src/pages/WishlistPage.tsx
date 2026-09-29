@@ -69,7 +69,7 @@ export default function WishlistPage() {
                   <Link to={`/product/${item.products.slug}`}>
                     <h3 className="font-semibold text-sm mb-1 hover:text-primary transition-colors">{item.products.name}</h3>
                   </Link>
-                  <p className="text-sm text-muted-foreground mb-3">${Number(item.products.price).toFixed(2)}</p>
+                  <p className="text-sm text-muted-foreground mb-3">K{Number(item.products.price).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})}</p>
                   <div className="flex gap-2">
                     <button
                       onClick={() => handleMoveToCart(item)}

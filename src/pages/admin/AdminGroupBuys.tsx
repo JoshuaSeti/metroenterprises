@@ -182,7 +182,7 @@ export default function AdminGroupBuys() {
                 <div className="flex-1 min-w-[220px]">
                   <p className="font-medium text-sm">{g.title}</p>
                   <p className="text-xs text-muted-foreground">
-                    ${Number(g.unit_price).toFixed(2)} / unit · {g.committed_quantity}/{g.min_quantity} units · {g.status}
+                    K{Number(g.unit_price).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})} / unit · {g.committed_quantity}/{g.min_quantity} units · {g.status}
                     {g.products?.name ? ` · ${g.products.name}` : ""}
                   </p>
                   <div className="h-1.5 w-full bg-secondary mt-2">

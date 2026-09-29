@@ -40,11 +40,11 @@ export default function ProductCard({ name, slug, price, image_url, category, di
       <div className="flex items-center gap-2">
         {originalPrice && originalPrice > price ? (
           <>
-            <span className="text-sm font-semibold">${price.toFixed(2)}</span>
-            <span className="text-xs text-muted-foreground line-through">${originalPrice.toFixed(2)}</span>
+            <span className="text-sm font-semibold">K{price.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})}</span>
+            <span className="text-xs text-muted-foreground line-through">K{originalPrice.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})}</span>
           </>
         ) : (
-          <span className="text-sm font-semibold">${price.toFixed(2)}</span>
+          <span className="text-sm font-semibold">K{price.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})}</span>
         )}
       </div>
     </Link>

@@ -135,9 +135,9 @@ export default function ProductPage() {
             <h1 className="font-heading text-3xl md:text-4xl font-bold mb-4">{product.name}</h1>
 
             <div className="flex items-center gap-3 mb-6">
-              <span className="text-2xl font-semibold">${finalPrice.toFixed(2)}</span>
+              <span className="text-2xl font-semibold">K{finalPrice.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})}</span>
               {hasDiscount && (
-                <span className="text-lg text-muted-foreground line-through">${price.toFixed(2)}</span>
+                <span className="text-lg text-muted-foreground line-through">K{price.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})}</span>
               )}
               {discountLabel && (
                 <span className="inline-flex items-center gap-1 bg-primary/10 text-primary text-xs font-semibold px-2 py-1 rounded">
@@ -164,7 +164,7 @@ export default function ProductPage() {
                     {tiers.map((t) => (
                       <tr key={t.id} className="border-b border-border last:border-0">
                         <td className="px-4 py-2">{t.min_quantity}+ units</td>
-                        <td className="px-4 py-2 text-right font-medium">${Number(t.unit_price).toFixed(2)} / unit</td>
+                        <td className="px-4 py-2 text-right font-medium">K{Number(t.unit_price).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})} / unit</td>
                       </tr>
                     ))}
                   </tbody>

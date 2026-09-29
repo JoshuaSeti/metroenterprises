@@ -115,7 +115,7 @@ export default function GroupBuyProductPage() {
               <p className="text-xs uppercase tracking-widest text-muted-foreground mb-2">{product.categories.name}</p>
             )}
             <h1 className="font-heading text-3xl md:text-4xl font-bold mb-4">{product.name}</h1>
-            <p className="text-2xl font-semibold mb-4">${Number(product.price).toFixed(2)} <span className="text-sm text-muted-foreground font-normal">/ unit at minimum order</span></p>
+            <p className="text-2xl font-semibold mb-4">K{Number(product.price).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})} <span className="text-sm text-muted-foreground font-normal">/ unit at minimum order</span></p>
 
             {product.description && <p className="text-muted-foreground leading-relaxed mb-6">{product.description}</p>}
 
@@ -134,12 +134,12 @@ export default function GroupBuyProductPage() {
                   <tbody>
                     <tr className="border-b border-border">
                       <td className="px-4 py-2">{minQty}+ units</td>
-                      <td className="px-4 py-2 text-right font-medium">${Number(product.price).toFixed(2)} / unit</td>
+                      <td className="px-4 py-2 text-right font-medium">K{Number(product.price).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})} / unit</td>
                     </tr>
                     {tiers.map((t: any) => (
                       <tr key={t.id} className="border-b border-border last:border-0">
                         <td className="px-4 py-2">{t.min_quantity}+ units</td>
-                        <td className="px-4 py-2 text-right font-medium">${Number(t.unit_price).toFixed(2)} / unit</td>
+                        <td className="px-4 py-2 text-right font-medium">K{Number(t.unit_price).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})} / unit</td>
                       </tr>
                     ))}
                   </tbody>
@@ -162,7 +162,7 @@ export default function GroupBuyProductPage() {
                 className="w-full border border-border bg-background px-3 py-2 text-sm mb-3"
               />
               <p className="text-xs text-muted-foreground mb-4">
-                Projected unit price once the threshold is met: <span className="font-semibold text-foreground">${projectedPrice.toFixed(2)}</span>
+                Projected unit price once the threshold is met: <span className="font-semibold text-foreground">K{projectedPrice.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})}</span>
               </p>
               <button
                 type="submit"

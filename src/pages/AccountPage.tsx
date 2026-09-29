@@ -82,7 +82,7 @@ export default function AccountPage() {
                     <span className={`text-xs px-2 py-1 font-semibold uppercase tracking-wide ${statusColors[order.status] || ""}`}>
                       {order.status}
                     </span>
-                    <span className="font-semibold">${Number(order.total).toFixed(2)}</span>
+                    <span className="font-semibold">K{Number(order.total).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})}</span>
                   </div>
                 </div>
                 {order.order_items && (

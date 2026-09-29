@@ -35,7 +35,7 @@ export default function GroupBuyCard({ groupBuy, joined, onJoin, onLeave, busy }
         )}
 
         <div className="flex items-center justify-between text-sm mb-2">
-          <span className="font-semibold">${Number(groupBuy.unit_price).toFixed(2)} <span className="text-muted-foreground font-normal">/ unit</span></span>
+          <span className="font-semibold">K{Number(groupBuy.unit_price).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})} <span className="text-muted-foreground font-normal">/ unit</span></span>
           <span className="flex items-center gap-1 text-muted-foreground text-xs">
             <Users size={14} /> {committed} / {min}
           </span>

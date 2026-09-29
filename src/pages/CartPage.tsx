@@ -125,7 +125,7 @@ export default function CartPage() {
                   <span className="flex-1 text-center text-sm">{item.quantity}</span>
                   <button onClick={() => updateQuantity(item.id, item.quantity + 1)} className="p-1 hover:bg-secondary"><Plus size={14} /></button>
                 </div>
-                <span className="w-20 text-right text-sm font-medium">${(item.price * item.quantity).toFixed(2)}</span>
+                <span className="w-20 text-right text-sm font-medium">K{(item.price * item.quantity).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})}</span>
                 <button onClick={() => removeItem(item.id)} className="w-8 flex justify-center hover:text-destructive transition-colors">
                   <X size={16} />
                 </button>
@@ -156,7 +156,7 @@ export default function CartPage() {
               </div>
               {appliedPromo && (
                 <p className="text-xs text-primary mt-2 font-medium">
-                  ✓ {appliedPromo.code} applied — {appliedPromo.type === "percentage" ? `${appliedPromo.value}% off` : appliedPromo.type === "free_shipping" ? "Free shipping" : `$${Number(appliedPromo.value).toFixed(2)} off`}
+                  ✓ {appliedPromo.code} applied — {appliedPromo.type === "percentage" ? `${appliedPromo.value}% off` : appliedPromo.type === "free_shipping" ? "Free shipping" : `K${Number(appliedPromo.value).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})} off`}
                 </p>
               )}
             </div>
@@ -176,17 +176,17 @@ export default function CartPage() {
             <div className="space-y-2 text-sm border-t border-border pt-4">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Subtotal</span>
-                <span>${total.toFixed(2)}</span>
+                <span>K{total.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})}</span>
               </div>
               {discountAmount > 0 && (
                 <div className="flex justify-between text-primary">
                   <span>Discount</span>
-                  <span>-${discountAmount.toFixed(2)}</span>
+                  <span>-K{discountAmount.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})}</span>
                 </div>
               )}
               <div className="flex justify-between font-semibold text-base pt-2 border-t border-border">
                 <span>Total</span>
-                <span>${finalTotal.toFixed(2)}</span>
+                <span>K{finalTotal.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})}</span>
               </div>
             </div>
 

@@ -46,7 +46,7 @@ export default function InfluencerDashboard() {
   const stats = [
     { label: "Total Uses", value: data?.totalUses || 0, icon: BarChart3 },
     { label: "Orders Generated", value: data?.orders.length || 0, icon: ShoppingCart },
-    { label: "Revenue Generated", value: `$${(data?.totalRevenue || 0).toFixed(2)}`, icon: DollarSign },
+    { label: "Revenue Generated", value: `K${(data?.totalRevenue || 0).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})}`, icon: DollarSign },
     { label: "Conversion Rate", value: data?.totalUses ? `${((data.orders.length / data.totalUses) * 100).toFixed(1)}%` : "0%", icon: TrendingUp },
   ];
 
@@ -109,7 +109,7 @@ export default function InfluencerDashboard() {
                   <tr key={o.id} className="border-b border-border last:border-0">
                     <td className="px-4 py-3 font-mono text-xs">{o.id.slice(0, 8)}</td>
                     <td className="px-4 py-3 text-muted-foreground">{new Date(o.created_at).toLocaleDateString()}</td>
-                    <td className="px-4 py-3 font-medium">${Number(o.total).toFixed(2)}</td>
+                    <td className="px-4 py-3 font-medium">K{Number(o.total).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
                   </tr>
                 ))}
               </tbody>

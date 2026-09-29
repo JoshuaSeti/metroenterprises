@@ -129,7 +129,7 @@ export default function GroupBuyDetailPage() {
           <div>
             <h1 className="font-heading text-3xl md:text-4xl font-bold mb-3">{gb.title}</h1>
             <p className="text-2xl font-semibold mb-4">
-              ${currentPrice.toFixed(2)} <span className="text-sm text-muted-foreground font-normal">/ unit</span>
+              K{currentPrice.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})} <span className="text-sm text-muted-foreground font-normal">/ unit</span>
             </p>
             {gb.description && <p className="text-muted-foreground leading-relaxed mb-6">{gb.description}</p>}
 
@@ -152,7 +152,7 @@ export default function GroupBuyDetailPage() {
                 <li className="flex items-center gap-2"><Truck size={14} /> Shipping time: {shippingTimeFor(gb.products, settings)}</li>
               )}
               {upcoming && (
-                <li>Reach {upcoming.min_quantity} units to drop the price to ${Number(upcoming.unit_price).toFixed(2)} / unit</li>
+                <li>Reach {upcoming.min_quantity} units to drop the price to K{Number(upcoming.unit_price).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})} / unit</li>
               )}
             </ul>
 
