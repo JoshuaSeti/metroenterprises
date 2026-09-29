@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import heroImage1 from "@/assets/hero-1.jpg";
-import heroImage2 from "@/assets/hero-2.jpg";
+import { Button } from "@/components/ui/button";
 import { useCarouselSlides } from "@/hooks/use-store-data";
 
 interface Slide {
@@ -13,37 +12,17 @@ interface Slide {
   ctaLink: string;
 }
 
-const defaultSlides: Slide[] = [
-  {
-    image: heroImage1,
-    headline: "Phones & Laptops, Direct",
-    subtext: "Genuine devices sourced straight from suppliers — no middlemen",
-    ctaLabel: "Shop Devices",
-    ctaLink: "/shop",
-  },
-  {
-    image: heroImage2,
-    headline: "Trending Goods, In Stock",
-    subtext: "Gadgets, accessories and everyday tech at wholesale prices",
-    ctaLabel: "Browse Stock",
-    ctaLink: "/shop",
-  },
-];
-
 export default function HeroCarousel() {
   const [current, setCurrent] = useState(0);
-  const { data: dbSlides } = useCarouselSlides();
+  const { data: dbSlides, isPending } = useCarouselSlides();
 
-  const slides: Slide[] =
-    dbSlides && dbSlides.length > 0
-      ? dbSlides.map((s: any) => ({
+  const slides: Slide[] = dbSlides?.map((s) => ({
           image: s.image_url,
           headline: s.headline,
           subtext: s.subtext || "",
           ctaLabel: s.cta_label || "",
           ctaLink: s.cta_link || "/shop",
-        }))
-      : defaultSlides;
+        })) || [];
 
   useEffect(() => {
     setCurrent(0);
@@ -55,6 +34,12 @@ export default function HeroCarousel() {
     return () => clearInterval(timer);
   }, [slides.length]);
 
+
+  if (isPending) {
+    return <section className="w-full h-[70vh] min-h-[500px] bg-secondary animate-pulse" aria-label="Loading carousel" />;
+  }
+
+  if (slides.length === 0) return null;
 
   return (
     <section className="relative w-full h-[70vh] min-h-[500px] overflow-hidden bg-foreground">
@@ -95,29 +80,36 @@ export default function HeroCarousel() {
 
       {slides.length > 1 && (
         <>
-          <button
+          <Button
+            variant="ghost"
+            size="icon"
             onClick={() => setCurrent((c) => (c - 1 + slides.length) % slides.length)}
-            className="absolute left-4 top-1/2 -translate-y-1/2 bg-background/20 hover:bg-background/40 text-background p-2 transition-colors"
+            className="absolute left-4 top-1/2 -translate-y-1/2 rounded-none bg-background/20 hover:bg-background/40 text-background hover:text-background"
             aria-label="Previous slide"
           >
             <ChevronLeft size={24} />
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
             onClick={() => setCurrent((c) => (c + 1) % slides.length)}
-            className="absolute right-4 top-1/2 -translate-y-1/2 bg-background/20 hover:bg-background/40 text-background p-2 transition-colors"
+            className="absolute right-4 top-1/2 -translate-y-1/2 rounded-none bg-background/20 hover:bg-background/40 text-background hover:text-background"
             aria-label="Next slide"
           >
             <ChevronRight size={24} />
-          </button>
+          </Button>
 
           <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
             {slides.map((_, i) => (
-              <button
+              <Button
                 key={i}
+                variant="ghost"
                 onClick={() => setCurrent(i)}
-                className={`w-8 h-0.5 transition-colors ${i === current ? "bg-background" : "bg-background/40"}`}
+                className="group h-8 w-8 rounded-none p-0 hover:bg-transparent"
                 aria-label={`Go to slide ${i + 1}`}
-              />
+              >
+                <span className={`w-8 h-0.5 transition-colors ${i === current ? "bg-background" : "bg-background/40 group-hover:bg-background/70"}`} />
+              </Button>
             ))}
           </div>
         </>
