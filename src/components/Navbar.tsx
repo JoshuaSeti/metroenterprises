@@ -3,6 +3,7 @@ import { ShoppingBag, User, Menu, X, Heart } from "lucide-react";
 import { useCart } from "@/hooks/use-cart";
 import { useAuth } from "@/hooks/use-auth";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
 import brandLogoAsset from "@/assets/direct-link-logo.jpg.asset.json";
 const brandLogo = brandLogoAsset.url;
 
@@ -19,20 +20,20 @@ export default function Navbar() {
         </Link>
 
         <nav className="hidden md:flex items-center gap-8 text-sm font-medium tracking-wide uppercase">
+          <Link to="/b2b" className="hover:text-primary transition-colors">Sourcing</Link>
           <Link to="/shop" className="hover:text-primary transition-colors">Shop</Link>
-          <Link to="/b2b" className="hover:text-primary transition-colors">B2B</Link>
           <Link to="/categories" className="hover:text-primary transition-colors">Categories</Link>
           <Link to="/rewards" className="hover:text-primary transition-colors">Rewards</Link>
         </nav>
 
         <div className="flex items-center gap-4">
           {user && (
-            <Link to="/wishlist" className="hover:text-primary transition-colors">
+            <Link to="/wishlist" aria-label="Wishlist" className="hover:text-primary transition-colors">
               <Heart size={20} />
             </Link>
           )}
           {user ? (
-            <Link to={userRole === "admin" ? "/admin" : userRole === "influencer" ? "/influencer" : "/account"} className="hover:text-primary transition-colors">
+            <Link aria-label="My account" to={userRole === "admin" ? "/admin" : userRole === "influencer" ? "/influencer" : "/account"} className="hover:text-primary transition-colors">
               <User size={20} />
             </Link>
           ) : (
@@ -40,7 +41,7 @@ export default function Navbar() {
               Sign In
             </Link>
           )}
-          <Link to="/cart" className="relative hover:text-primary transition-colors">
+          <Link to="/cart" aria-label="Shopping bag" className="relative hover:text-primary transition-colors">
             <ShoppingBag size={20} />
             {itemCount > 0 && (
               <span className="absolute -top-2 -right-2 bg-primary text-primary-foreground text-xs w-5 h-5 flex items-center justify-center font-medium">
@@ -48,17 +49,17 @@ export default function Navbar() {
               </span>
             )}
           </Link>
-          <button className="md:hidden" onClick={() => setMenuOpen(!menuOpen)}>
+          <Button variant="ghost" size="icon" className="md:hidden" aria-label={menuOpen ? "Close menu" : "Open menu"} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>
             {menuOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
+          </Button>
         </div>
       </div>
 
       {menuOpen && (
         <div className="md:hidden border-t border-border">
           <nav className="container py-4 flex flex-col gap-4 text-sm font-medium tracking-wide uppercase">
+            <Link to="/b2b" onClick={() => setMenuOpen(false)}>Sourcing</Link>
             <Link to="/shop" onClick={() => setMenuOpen(false)}>Shop</Link>
-            <Link to="/b2b" onClick={() => setMenuOpen(false)}>B2B</Link>
             <Link to="/categories" onClick={() => setMenuOpen(false)}>Categories</Link>
             <Link to="/rewards" onClick={() => setMenuOpen(false)}>Rewards</Link>
             {user && <Link to="/wishlist" onClick={() => setMenuOpen(false)}>Wishlist</Link>}

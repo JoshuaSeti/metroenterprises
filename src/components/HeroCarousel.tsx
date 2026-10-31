@@ -36,18 +36,18 @@ export default function HeroCarousel() {
 
 
   if (isPending) {
-    return <section className="w-full h-[70vh] min-h-[500px] bg-secondary animate-pulse" aria-label="Loading carousel" />;
+    return <section className="w-full h-[48vh] min-h-[300px] max-h-[520px] bg-secondary animate-pulse" aria-label="Loading carousel" />;
   }
 
   if (slides.length === 0) return null;
 
   return (
-    <section className="relative w-full h-[70vh] min-h-[500px] overflow-hidden bg-foreground">
+    <section className="relative w-full h-[48vh] min-h-[300px] max-h-[520px] overflow-hidden bg-foreground">
       {slides.map((slide, i) => (
         <div
           key={i}
-          className="absolute inset-0 transition-opacity duration-700"
-          style={{ opacity: i === current ? 1 : 0 }}
+          className={`absolute inset-0 transition-opacity duration-700 motion-reduce:transition-none ${i === current ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+          aria-hidden={i !== current}
         >
           <img
             src={slide.image}
@@ -57,20 +57,15 @@ export default function HeroCarousel() {
           <div className="absolute inset-0 bg-foreground/40" />
           <div className="absolute inset-0 flex items-center">
             <div className="container">
-              <div className="max-w-lg animate-fade-in" key={current}>
-                <h1 className="font-heading text-4xl md:text-6xl font-bold text-background mb-4 leading-tight">
+              <div className="max-w-lg px-8 md:px-10" key={current}>
+                <h2 className="font-heading text-3xl md:text-4xl font-bold text-background mb-4 leading-tight">
                   {slide.headline}
-                </h1>
-                <p className="text-background/80 text-lg mb-8 font-body">
+                </h2>
+                <p className="text-background/80 text-base mb-5 font-body">
                   {slide.subtext}
                 </p>
                 {slide.ctaLabel && (
-                  <Link
-                    to={slide.ctaLink}
-                    className="inline-block bg-background text-foreground px-8 py-3 text-sm font-semibold uppercase tracking-widest hover:bg-primary hover:text-primary-foreground transition-colors"
-                  >
-                    {slide.ctaLabel}
-                  </Link>
+                  <Button asChild tabIndex={i === current ? 0 : -1} className="bg-background text-foreground hover:bg-primary hover:text-primary-foreground"><Link to={slide.ctaLink}>{slide.ctaLabel}</Link></Button>
                 )}
               </div>
             </div>

@@ -46,9 +46,9 @@ export default function B2BPage() {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <main className="flex-1 container py-12">
-        <h1 className="font-heading text-3xl md:text-4xl font-bold mb-2">B2B Sourcing</h1>
+        <h1 className="font-heading text-3xl md:text-4xl font-bold mb-2">Goods Sourcing</h1>
         <p className="text-muted-foreground max-w-2xl mb-8">
-          Tell us exactly what you need — pick a category, add photos and volumes. Our sourcing team replies in a private chat with pricing and lead times.
+          Products, equipment, supplies or bulk stock — tell us what you need sourced. Our team will discuss your requirements, pricing and lead times in your private inquiry.
         </p>
 
         {loading ? null : !user ? (
