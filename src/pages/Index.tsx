@@ -13,7 +13,9 @@ const Index = () => {
   const { data: categories } = useCategories();
   const { data: discounts } = useAllActiveDiscounts();
 
-  const featuredProducts = products?.slice(0, 8) || [];
+  const featuredProducts = [...(products || [])]
+    .sort((a, b) => Number(Boolean(b.image_url)) - Number(Boolean(a.image_url)))
+    .slice(0, 8);
 
   return (
     <div className="min-h-screen flex flex-col">
