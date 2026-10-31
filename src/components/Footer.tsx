@@ -7,12 +7,13 @@ export default function Footer() {
         <div>
           <h3 className="font-heading text-lg font-semibold mb-4">DIRECT-LINK SUPPLIES</h3>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Your direct source for phones, laptops, gadgets and trending goods. Sourcing made simple.
+            Goods sourcing for businesses, resellers and everyday buyers. From a single product to a bulk order — sourcing made simple.
           </p>
         </div>
         <div>
           <h4 className="text-sm font-semibold uppercase tracking-wide mb-4">Quick Links</h4>
           <nav className="flex flex-col gap-2 text-sm text-muted-foreground">
+            <Link to="/b2b" className="hover:text-foreground transition-colors">Source a Product</Link>
             <Link to="/shop" className="hover:text-foreground transition-colors">Shop All</Link>
             <Link to="/categories" className="hover:text-foreground transition-colors">Categories</Link>
             <Link to="/account" className="hover:text-foreground transition-colors">My Account</Link>
