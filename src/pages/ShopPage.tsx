@@ -3,7 +3,9 @@ import Footer from "@/components/Footer";
 import ProductCard from "@/components/ProductCard";
 import ShopTabs from "@/components/ShopTabs";
 import { useProducts, useCategories, useAllActiveDiscounts, getProductDiscount } from "@/hooks/use-store-data";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
 
 export default function ShopPage() {
   const [searchParams] = useSearchParams();
@@ -23,15 +25,18 @@ export default function ShopPage() {
         <h1 className="font-heading text-3xl md:text-4xl font-bold mb-2">
           {categorySlug ? categories?.find((c) => c.slug === categorySlug)?.name || "Shop" : "Shop All"}
         </h1>
-        <p className="text-muted-foreground mb-6">Phones, laptops, gadgets and trending goods</p>
+        <div className="flex flex-col sm:flex-row gap-4 sm:items-center justify-between mb-6">
+          <p className="text-muted-foreground">Explore our product catalog, or source goods to your requirements.</p>
+          <Button asChild variant="outline" className="self-start shrink-0"><Link to="/b2b">Source a product <ArrowRight /></Link></Button>
+        </div>
 
         <ShopTabs />
 
         {categories && categories.length > 0 && (
-          <div className="flex flex-wrap gap-2 mb-8">
-            <a href="/shop" className={`px-4 py-2 text-xs font-semibold uppercase tracking-wide border transition-colors ${!categorySlug ? "bg-foreground text-background border-foreground" : "border-border hover:border-foreground"}`}>All</a>
+          <div className="flex flex-wrap gap-x-6 gap-y-3 border-b border-border pb-4 mb-8">
+            <Link to="/shop" className={`text-xs font-semibold uppercase tracking-wide transition-colors ${!categorySlug ? "text-accent underline underline-offset-8" : "text-muted-foreground hover:text-foreground"}`}>All products</Link>
             {categories.map((cat) => (
-              <a key={cat.id} href={`/shop?category=${cat.slug}`} className={`px-4 py-2 text-xs font-semibold uppercase tracking-wide border transition-colors ${categorySlug === cat.slug ? "bg-foreground text-background border-foreground" : "border-border hover:border-foreground"}`}>{cat.name}</a>
+              <Link key={cat.id} to={`/shop?category=${cat.slug}`} className={`text-xs font-semibold uppercase tracking-wide transition-colors ${categorySlug === cat.slug ? "text-accent underline underline-offset-8" : "text-muted-foreground hover:text-foreground"}`}>{cat.name}</Link>
             ))}
           </div>
         )}
@@ -40,7 +45,7 @@ export default function ShopPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[...Array(8)].map((_, i) => (
               <div key={i} className="animate-pulse">
-                <div className="aspect-[3/4] bg-secondary mb-3" />
+                <div className="aspect-square bg-secondary mb-3" />
                 <div className="h-3 bg-secondary w-2/3 mb-2" />
                 <div className="h-3 bg-secondary w-1/3" />
               </div>
