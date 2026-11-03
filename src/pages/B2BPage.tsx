@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/use-auth";
 import { useCategories } from "@/hooks/use-store-data";
 import { useMyInquiries, useCreateInquiry } from "@/hooks/use-b2b";
+import { useB2BServices } from "@/hooks/use-b2b-services";
 import { Upload, MessageSquare } from "lucide-react";
 
 export default function B2BPage() {
@@ -14,6 +15,7 @@ export default function B2BPage() {
   const { data: categories } = useCategories();
   const { data: inquiries } = useMyInquiries();
   const create = useCreateInquiry();
+  const { data: services } = useB2BServices();
 
   const [form, setForm] = useState({ product_name: "", category_id: "", details: "", quantity: "", target_price: "" });
   const [files, setFiles] = useState<File[]>([]);
@@ -46,10 +48,40 @@ export default function B2BPage() {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <main className="flex-1 container py-12">
-        <h1 className="font-heading text-3xl md:text-4xl font-bold mb-2">Goods Sourcing</h1>
+        <h1 className="font-heading text-3xl md:text-4xl font-bold mb-2">B2B</h1>
         <p className="text-muted-foreground max-w-2xl mb-8">
           Products, equipment, supplies or bulk stock — tell us what you need sourced. Our team will discuss your requirements, pricing and lead times in your private inquiry.
         </p>
+
+        {services && services.length > 0 && (
+          <section className="mb-12">
+            <h2 className="font-heading font-bold text-xl mb-4">Our services</h2>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {services.map((s) => (
+                <div key={s.id} className="border border-border flex flex-col">
+                  {s.image_url && <img src={s.image_url} alt={s.name} className="w-full aspect-video object-cover" loading="lazy" />}
+                  <div className="p-5 flex flex-col flex-1">
+                    <h3 className="font-heading font-bold mb-2">{s.name}</h3>
+                    {s.description && <p className="text-sm text-muted-foreground mb-4 whitespace-pre-line flex-1">{s.description}</p>}
+                    <p className="text-xs uppercase tracking-wide text-muted-foreground mb-3">Price on inquiry</p>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setForm((f) => ({ ...f, product_name: s.name.slice(0, 120) }));
+                        document.getElementById("inquiry-form")?.scrollIntoView({ behavior: "smooth" });
+                      }}
+                      className="self-start bg-foreground text-background px-4 py-2 text-xs font-semibold uppercase tracking-wide hover:bg-primary transition-colors"
+                    >
+                      Request a quote
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+        <div id="inquiry-form" />
+
 
         {loading ? null : !user ? (
           <div className="border border-border p-8 text-center">

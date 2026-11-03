@@ -40,6 +40,7 @@ import AdminUsers from "./pages/admin/AdminUsers";
 import AdminRewards from "./pages/admin/AdminRewards";
 import AdminGroupBuys from "./pages/admin/AdminGroupBuys";
 import AdminB2B from "./pages/admin/AdminB2B";
+import AdminB2BServices from "./pages/admin/AdminB2BServices";
 import AdminSettings from "./pages/admin/AdminSettings";
 
 const queryClient = new QueryClient();
@@ -89,6 +90,7 @@ const App = () => (
                 <Route path="rewards" element={<AdminRewards />} />
                 <Route path="group-buys" element={<AdminGroupBuys />} />
                 <Route path="b2b" element={<AdminB2B />} />
+                <Route path="b2b-services" element={<AdminB2BServices />} />
                 <Route path="settings" element={<AdminSettings />} />
               </Route>
               <Route path="*" element={<NotFound />} />
