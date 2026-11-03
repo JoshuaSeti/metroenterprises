@@ -17,6 +17,7 @@ export type Database = {
       b2b_inquiries: {
         Row: {
           category_id: string | null
+          contact_email: string | null
           created_at: string
           details: string | null
           id: string
@@ -28,9 +29,11 @@ export type Database = {
           target_price: number | null
           updated_at: string
           user_id: string
+          whatsapp_number: string | null
         }
         Insert: {
           category_id?: string | null
+          contact_email?: string | null
           created_at?: string
           details?: string | null
           id?: string
@@ -42,9 +45,11 @@ export type Database = {
           target_price?: number | null
           updated_at?: string
           user_id: string
+          whatsapp_number?: string | null
         }
         Update: {
           category_id?: string | null
+          contact_email?: string | null
           created_at?: string
           details?: string | null
           id?: string
@@ -56,6 +61,7 @@ export type Database = {
           target_price?: number | null
           updated_at?: string
           user_id?: string
+          whatsapp_number?: string | null
         }
         Relationships: [
           {
