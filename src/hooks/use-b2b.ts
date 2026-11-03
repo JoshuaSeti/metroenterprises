@@ -120,6 +120,8 @@ export function useCreateInquiry() {
       details: string;
       quantity: number | null;
       target_price: number | null;
+      whatsapp_number: string;
+      contact_email: string;
       files: File[];
     }) => {
       const { data: { user } } = await supabase.auth.getUser();
@@ -143,6 +145,8 @@ export function useCreateInquiry() {
           details: input.details.trim().slice(0, 2000) || null,
           quantity: input.quantity,
           target_price: input.target_price,
+          whatsapp_number: input.whatsapp_number.trim().slice(0, 20),
+          contact_email: input.contact_email.trim().slice(0, 255) || null,
           image_paths: paths,
         })
         .select()

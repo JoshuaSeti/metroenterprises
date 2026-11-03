@@ -69,7 +69,10 @@ export default function AdminB2B() {
                 </p>
                 <p className="text-xs text-muted-foreground">
                   {i.categories?.name || "Uncategorised"}
-                  {i.quantity ? ` · ${i.quantity} units` : ""} · {new Date(i.created_at).toLocaleDateString()}
+                  {i.quantity ? ` · ${i.quantity} units` : ""}
+                  {i.whatsapp_number ? ` · WhatsApp ${i.whatsapp_number}` : ""}
+                  {" · "}
+                  {new Date(i.created_at).toLocaleDateString()}
                 </p>
                 <div className="mt-2 flex items-center gap-3">
                   <select

@@ -8,6 +8,7 @@ import { useCategories } from "@/hooks/use-store-data";
 import { useMyInquiries, useCreateInquiry } from "@/hooks/use-b2b";
 import { useB2BServices } from "@/hooks/use-b2b-services";
 import { Upload, MessageSquare } from "lucide-react";
+import { validateB2BContact } from "@/lib/b2b-form";
 
 export default function B2BPage() {
   const { user, loading } = useAuth();
@@ -17,7 +18,7 @@ export default function B2BPage() {
   const create = useCreateInquiry();
   const { data: services } = useB2BServices();
 
-  const [form, setForm] = useState({ product_name: "", category_id: "", details: "", quantity: "", target_price: "" });
+  const [form, setForm] = useState({ product_name: "", category_id: "", details: "", quantity: "", target_price: "", whatsapp: "", email: "" });
   const [files, setFiles] = useState<File[]>([]);
 
   const inputClass = "w-full border border-border bg-background px-3 py-2 text-sm";
@@ -25,6 +26,10 @@ export default function B2BPage() {
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.product_name.trim()) return toast.error("Tell us what product you need");
+    const whatsapp = form.whatsapp.trim();
+    const email = form.email.trim();
+    const contactError = validateB2BContact(whatsapp, email);
+    if (contactError) return toast.error(contactError);
     create.mutate(
       {
         product_name: form.product_name,
@@ -32,6 +37,8 @@ export default function B2BPage() {
         details: form.details,
         quantity: form.quantity ? Number(form.quantity) : null,
         target_price: form.target_price ? Number(form.target_price) : null,
+        whatsapp_number: whatsapp,
+        contact_email: email,
         files,
       },
       {
@@ -49,9 +56,17 @@ export default function B2BPage() {
       <Navbar />
       <main className="flex-1 container py-12">
         <h1 className="font-heading text-3xl md:text-4xl font-bold mb-2">B2B</h1>
-        <p className="text-muted-foreground max-w-2xl mb-8">
-          Products, equipment, supplies or bulk stock — tell us what you need sourced. Our team will discuss your requirements, pricing and lead times in your private inquiry.
+        <p className="text-muted-foreground max-w-2xl mb-4">
+          This form is for <span className="text-foreground font-medium">specific product inquiries</span> — one product or a defined list you already know you need. Tell us the exact item, brand or model, how many units, and your target price if you have one.
         </p>
+        <div className="border border-border bg-secondary/40 p-4 mb-8 max-w-2xl">
+          <p className="text-sm">
+            <span className="font-heading font-bold">How it works:</span> submit the exact product you want sourced, then chat with our team in your private inquiry thread. We confirm availability, unit pricing and lead times, and reply there — usually within one business day.
+          </p>
+          <p className="text-xs text-muted-foreground mt-2">
+            Not sure which product yet? Browse our services above and request a quote, or use the chat to ask our team first.
+          </p>
+        </div>
 
         {services && services.length > 0 && (
           <section className="mb-12">
@@ -95,8 +110,18 @@ export default function B2BPage() {
             <form onSubmit={submit} className="border border-border p-6 space-y-4">
               <h2 className="font-heading font-bold text-lg">New inquiry</h2>
               <div>
-                <label className="text-xs uppercase tracking-wide font-semibold">Product needed</label>
-                <input required maxLength={120} className={inputClass} value={form.product_name} onChange={(e) => setForm({ ...form, product_name: e.target.value })} />
+                <label className="text-xs uppercase tracking-wide font-semibold">Product needed (exact item, brand or model)</label>
+                <input required maxLength={120} placeholder="e.g. iPhone 15 Pro Max 256GB" className={inputClass} value={form.product_name} onChange={(e) => setForm({ ...form, product_name: e.target.value })} />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-xs uppercase tracking-wide font-semibold">WhatsApp number</label>
+                  <input required type="tel" maxLength={20} placeholder="+260 ..." className={inputClass} value={form.whatsapp} onChange={(e) => setForm({ ...form, whatsapp: e.target.value })} />
+                </div>
+                <div>
+                  <label className="text-xs uppercase tracking-wide font-semibold">Email address (optional)</label>
+                  <input type="email" maxLength={255} placeholder="you@example.com" className={inputClass} value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+                </div>
               </div>
               <div>
                 <label className="text-xs uppercase tracking-wide font-semibold">Category</label>

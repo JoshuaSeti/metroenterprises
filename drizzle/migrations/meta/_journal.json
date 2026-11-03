@@ -8,6 +8,13 @@
       "when": 1793711156647,
       "tag": "0000_create_b2b_services",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1793712131965,
+      "tag": "0001_create_b2b_inquiry_contact_fields",
+      "breakpoints": true
     }
   ]
 }
