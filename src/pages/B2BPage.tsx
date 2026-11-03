@@ -110,8 +110,18 @@ export default function B2BPage() {
             <form onSubmit={submit} className="border border-border p-6 space-y-4">
               <h2 className="font-heading font-bold text-lg">New inquiry</h2>
               <div>
-                <label className="text-xs uppercase tracking-wide font-semibold">Product needed</label>
-                <input required maxLength={120} className={inputClass} value={form.product_name} onChange={(e) => setForm({ ...form, product_name: e.target.value })} />
+                <label className="text-xs uppercase tracking-wide font-semibold">Product needed (exact item, brand or model)</label>
+                <input required maxLength={120} placeholder="e.g. iPhone 15 Pro Max 256GB" className={inputClass} value={form.product_name} onChange={(e) => setForm({ ...form, product_name: e.target.value })} />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-xs uppercase tracking-wide font-semibold">WhatsApp number</label>
+                  <input required type="tel" maxLength={20} placeholder="+260 ..." className={inputClass} value={form.whatsapp} onChange={(e) => setForm({ ...form, whatsapp: e.target.value })} />
+                </div>
+                <div>
+                  <label className="text-xs uppercase tracking-wide font-semibold">Email address (optional)</label>
+                  <input type="email" maxLength={255} placeholder="you@example.com" className={inputClass} value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+                </div>
               </div>
               <div>
                 <label className="text-xs uppercase tracking-wide font-semibold">Category</label>
