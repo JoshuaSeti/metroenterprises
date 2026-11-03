@@ -17,7 +17,7 @@ export default function B2BPage() {
   const create = useCreateInquiry();
   const { data: services } = useB2BServices();
 
-  const [form, setForm] = useState({ product_name: "", category_id: "", details: "", quantity: "", target_price: "" });
+  const [form, setForm] = useState({ product_name: "", category_id: "", details: "", quantity: "", target_price: "", whatsapp: "", email: "" });
   const [files, setFiles] = useState<File[]>([]);
 
   const inputClass = "w-full border border-border bg-background px-3 py-2 text-sm";
@@ -25,6 +25,11 @@ export default function B2BPage() {
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.product_name.trim()) return toast.error("Tell us what product you need");
+    const whatsapp = form.whatsapp.trim();
+    const email = form.email.trim();
+    if (!whatsapp) return toast.error("Add your WhatsApp number so we can reach you");
+    if (!/^\+?[0-9\s()-]{9,20}$/.test(whatsapp)) return toast.error("That WhatsApp number doesn't look right");
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return toast.error("Check the email address you entered");
     create.mutate(
       {
         product_name: form.product_name,
@@ -32,6 +37,8 @@ export default function B2BPage() {
         details: form.details,
         quantity: form.quantity ? Number(form.quantity) : null,
         target_price: form.target_price ? Number(form.target_price) : null,
+        whatsapp_number: whatsapp,
+        contact_email: email,
         files,
       },
       {
