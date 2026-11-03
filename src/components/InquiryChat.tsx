@@ -53,6 +53,13 @@ export default function InquiryChat({ inquiry, isAdmin }: { inquiry: any; isAdmi
           {inquiry.target_price ? ` · target K${Number(inquiry.target_price).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})}` : ""}
           {` · ${inquiry.status}`}
         </p>
+        {(inquiry.whatsapp_number || inquiry.contact_email) && (
+          <p className="text-xs text-muted-foreground mt-1">
+            {inquiry.whatsapp_number ? `WhatsApp: ${inquiry.whatsapp_number}` : ""}
+            {inquiry.whatsapp_number && inquiry.contact_email ? " · " : ""}
+            {inquiry.contact_email ? `Email: ${inquiry.contact_email}` : ""}
+          </p>
+        )}
         {images && images.length > 0 && (
           <div className="flex gap-2 mt-3 overflow-x-auto">
             {images.map((url) => (
