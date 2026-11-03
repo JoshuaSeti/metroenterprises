@@ -28,9 +28,8 @@ export default function B2BPage() {
     if (!form.product_name.trim()) return toast.error("Tell us what product you need");
     const whatsapp = form.whatsapp.trim();
     const email = form.email.trim();
-    if (!whatsapp) return toast.error("Add your WhatsApp number so we can reach you");
-    if (!/^\+?[0-9\s()-]{9,20}$/.test(whatsapp)) return toast.error("That WhatsApp number doesn't look right");
-    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return toast.error("Check the email address you entered");
+    const contactError = validateB2BContact(whatsapp, email);
+    if (contactError) return toast.error(contactError);
     create.mutate(
       {
         product_name: form.product_name,
