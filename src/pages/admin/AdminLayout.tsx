@@ -19,6 +19,7 @@ const navItems = [
   { label: "Rewards", path: "/admin/rewards", icon: Gift },
   { label: "Group Buys", path: "/admin/group-buys", icon: Users2 },
   { label: "B2B Inquiries", path: "/admin/b2b", icon: MessageSquare },
+  { label: "B2B Services", path: "/admin/b2b-services", icon: Package },
   { label: "Settings", path: "/admin/settings", icon: Settings },
 ];
 
