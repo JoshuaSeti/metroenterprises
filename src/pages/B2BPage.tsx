@@ -8,6 +8,7 @@ import { useCategories } from "@/hooks/use-store-data";
 import { useMyInquiries, useCreateInquiry } from "@/hooks/use-b2b";
 import { useB2BServices } from "@/hooks/use-b2b-services";
 import { Upload, MessageSquare } from "lucide-react";
+import { validateB2BContact } from "@/lib/b2b-form";
 
 export default function B2BPage() {
   const { user, loading } = useAuth();
