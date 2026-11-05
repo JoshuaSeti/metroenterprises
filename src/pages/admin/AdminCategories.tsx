@@ -4,7 +4,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Plus, Trash2, Pencil } from "lucide-react";
 
-const emptyForm = { name: "", slug: "", description: "", image_url: "" };
+const emptyForm = { name: "", slug: "", description: "", image_url: "", parent_id: "" };
 
 export default function AdminCategories() {
   const queryClient = useQueryClient();
@@ -28,6 +28,7 @@ export default function AdminCategories() {
         slug: form.slug || form.name.toLowerCase().replace(/\s+/g, "-"),
         description: form.description || null,
         image_url: form.image_url || null,
+        parent_id: form.parent_id || null,
       };
       const { error } = editingId
         ? await supabase.from("categories").update(payload).eq("id", editingId)
@@ -68,6 +69,7 @@ export default function AdminCategories() {
       slug: c.slug ?? "",
       description: c.description ?? "",
       image_url: c.image_url ?? "",
+      parent_id: c.parent_id ?? "",
     });
     setEditingId(c.id);
     setShowForm(true);
@@ -89,6 +91,10 @@ export default function AdminCategories() {
             <input placeholder="Name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="border border-border px-3 py-2 text-sm bg-background focus:outline-none focus:ring-1 focus:ring-ring" />
             <input placeholder="Slug" value={form.slug} onChange={(e) => setForm({ ...form, slug: e.target.value })} className="border border-border px-3 py-2 text-sm bg-background focus:outline-none focus:ring-1 focus:ring-ring" />
             <input placeholder="Image URL" value={form.image_url} onChange={(e) => setForm({ ...form, image_url: e.target.value })} className="border border-border px-3 py-2 text-sm bg-background focus:outline-none focus:ring-1 focus:ring-ring" />
+            <select value={form.parent_id} onChange={(e) => setForm({ ...form, parent_id: e.target.value })} className="border border-border px-3 py-2 text-sm bg-background">
+              <option value="">Main category (no parent)</option>
+              {categories?.filter((c: any) => !c.parent_id && c.id !== editingId).map((c) => <option key={c.id} value={c.id}>Sub-category of {c.name}</option>)}
+            </select>
             <input placeholder="Description" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="border border-border px-3 py-2 text-sm bg-background focus:outline-none focus:ring-1 focus:ring-ring" />
           </div>
           <div className="flex gap-2 mt-4">
@@ -112,7 +118,7 @@ export default function AdminCategories() {
               <tr><td colSpan={3} className="px-4 py-8 text-center text-muted-foreground">Loading...</td></tr>
             ) : categories?.map((c) => (
               <tr key={c.id} className="border-b border-border last:border-0 hover:bg-secondary/30 transition-colors">
-                <td className="px-4 py-3 font-medium">{c.name}</td>
+                <td className="px-4 py-3 font-medium">{(c as any).parent_id ? `${categories?.find((p) => p.id === (c as any).parent_id)?.name} › ` : ""}{c.name}</td>
                 <td className="px-4 py-3 text-muted-foreground">{c.slug}</td>
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-3">

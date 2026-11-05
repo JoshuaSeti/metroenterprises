@@ -15,6 +15,13 @@
       "when": 1793712131965,
       "tag": "0001_create_b2b_inquiry_contact_fields",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1793843280427,
+      "tag": "0002_category_parent",
+      "breakpoints": true
     }
   ]
 }
