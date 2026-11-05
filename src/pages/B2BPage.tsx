@@ -56,17 +56,9 @@ export default function B2BPage() {
       <Navbar />
       <main className="flex-1 container py-12">
         <h1 className="font-heading text-3xl md:text-4xl font-bold mb-2">B2B</h1>
-        <p className="text-muted-foreground max-w-2xl mb-4">
-          This form is for <span className="text-foreground font-medium">specific product inquiries</span> — one product or a defined list you already know you need. Tell us the exact item, brand or model, how many units, and your target price if you have one.
+        <p className="text-muted-foreground max-w-2xl mb-8">
+          Browse our services below or submit an inquiry and our team will reply in your private chat — usually within one business day.
         </p>
-        <div className="border border-border bg-secondary/40 p-4 mb-8 max-w-2xl">
-          <p className="text-sm">
-            <span className="font-heading font-bold">How it works:</span> submit the exact product you want sourced, then chat with our team in your private inquiry thread. We confirm availability, unit pricing and lead times, and reply there — usually within one business day.
-          </p>
-          <p className="text-xs text-muted-foreground mt-2">
-            Not sure which product yet? Browse our services above and request a quote, or use the chat to ask our team first.
-          </p>
-        </div>
 
         {services && services.length > 0 && (
           <section className="mb-12">
