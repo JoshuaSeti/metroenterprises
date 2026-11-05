@@ -1,0 +1,3 @@
+ALTER TABLE public.categories ADD COLUMN parent_id uuid REFERENCES public.categories(id) ON DELETE SET NULL;
+INSERT INTO public.categories (name, slug, description) SELECT 'Electronics','electronics','Phones, laptops and devices' WHERE NOT EXISTS (SELECT 1 FROM public.categories WHERE slug='electronics');
+UPDATE public.categories SET parent_id = (SELECT id FROM public.categories WHERE slug='electronics') WHERE slug IN ('laptops','phones','apple','google','samsung');
