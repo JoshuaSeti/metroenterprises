@@ -21,15 +21,14 @@ const Index = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <main className="flex-1">
-        <section className="container py-8 md:py-10 flex flex-col lg:flex-row lg:items-end justify-between gap-6">
-          <div className="max-w-2xl">
-            <p className="text-xs font-semibold uppercase tracking-wide text-accent mb-3">Goods sourcing · Business supply · Everyday products</p>
-            <h1 className="font-heading text-3xl md:text-4xl font-extrabold mb-3">DIRECT-LINK SUPPLIES</h1>
-            <p className="text-muted-foreground text-base leading-relaxed">The goods you need. A direct link to source them.<br className="hidden sm:block" /> For your business, your next bulk order, or your everyday needs.</p>
+        <section className="container py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h1 className="font-heading text-xl md:text-2xl font-extrabold">DIRECT-LINK SUPPLIES</h1>
+            <p className="text-muted-foreground text-sm">The goods you need. A direct link to source them.</p>
           </div>
-          <div className="flex flex-wrap gap-3 shrink-0">
-            <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90"><Link to="/b2b">Source a product <ArrowRight /></Link></Button>
-            <Button asChild variant="outline" size="lg"><Link to="/shop">Browse products</Link></Button>
+          <div className="flex flex-wrap gap-2 shrink-0">
+            <Button asChild size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90"><Link to="/b2b">Source a product <ArrowRight /></Link></Button>
+            <Button asChild variant="outline" size="sm"><Link to="/shop">Browse products</Link></Button>
           </div>
         </section>
         <HeroCarousel />
@@ -59,7 +58,7 @@ const Index = () => {
               </Link>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 border-t border-l border-border">
-              {categories.map((cat) => (
+              {categories.filter((c: any) => !c.parent_id).map((cat) => (
                 <Link key={cat.id} to={`/shop?category=${cat.slug}`} className="group flex flex-col items-center text-center gap-3 border-r border-b border-border px-4 py-6 bg-card hover:bg-secondary transition-colors">
                   <div className="h-20 w-20 flex items-center justify-center">
                     {cat.image_url ? <img src={cat.image_url} alt="" className="w-full h-full object-contain" loading="lazy" /> : <Boxes size={32} strokeWidth={1} className="text-muted-foreground" />}
