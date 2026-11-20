@@ -144,6 +144,53 @@ export type Database = {
         }
         Relationships: []
       }
+      bila_payments: {
+        Row: {
+          amount: number
+          checkout_token: string
+          created_at: string
+          currency: string
+          id: string
+          order_id: string
+          reference: string
+          state: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          checkout_token: string
+          created_at?: string
+          currency?: string
+          id?: string
+          order_id: string
+          reference: string
+          state?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          checkout_token?: string
+          created_at?: string
+          currency?: string
+          id?: string
+          order_id?: string
+          reference?: string
+          state?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bila_payments_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: true
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       campaign_products: {
         Row: {
           campaign_id: string
@@ -998,12 +1045,47 @@ export type Database = {
     }
     Functions: {
       cleanup_old_b2b_chats: { Args: never; Returns: undefined }
+      complete_bila_payment: {
+        Args: {
+          p_amount: number
+          p_currency: string
+          p_payment_id: string
+          p_reference: string
+        }
+        Returns: undefined
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
         }
         Returns: boolean
+      }
+      prepare_bila_checkout: {
+        Args: {
+          p_address: string
+          p_checkout_token: string
+          p_items: Json
+          p_promo_code_id?: string
+        }
+        Returns: {
+          amount: number
+          checkout_token: string
+          created_at: string
+          currency: string
+          id: string
+          order_id: string
+          reference: string
+          state: string
+          updated_at: string
+          user_id: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "bila_payments"
+          isOneToOne: true
+          isSetofReturn: false
+        }
       }
     }
     Enums: {

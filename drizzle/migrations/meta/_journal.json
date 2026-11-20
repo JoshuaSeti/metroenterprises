@@ -29,6 +29,20 @@
       "when": 1794438330683,
       "tag": "0003_tighten_public_read_policies",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1795214624156,
+      "tag": "0004_bila_order_payments",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1795214745924,
+      "tag": "0005_protect_bila_order_snapshots",
+      "breakpoints": true
     }
   ]
 }

@@ -65,7 +65,7 @@ export default function BilaSetupStatus() {
               <dd>{data.paymentsEnabled ? "Enabled" : "Not enabled"}</dd>
             </div>
           </dl>
-          <p className="text-xs text-muted-foreground mt-4">Manual payments remain available. No Bila payment has been requested.</p>
+          <p className="text-xs text-muted-foreground mt-4">Manual payments remain available. Bila payments are requested only when a customer confirms payment.</p>
         </>
       ) : null}
     </section>

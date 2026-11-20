@@ -7,6 +7,8 @@ import { Minus, Plus, X } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import { useBilaAvailability, usePrepareBila } from "@/hooks/use-bila";
 
 export default function CartPage() {
   const { items, updateQuantity, removeItem, total, clearCart } = useCart();
@@ -17,6 +19,10 @@ export default function CartPage() {
   const validatePromo = useValidatePromoCode();
   const createOrder = useCreateOrder();
   const navigate = useNavigate();
+  const { data: bila } = useBilaAvailability();
+  const prepareBila = usePrepareBila();
+  const [paymentMethod, setPaymentMethod] = useState("manual");
+  const [checkoutToken] = useState(() => crypto.randomUUID());
 
   const discountAmount = appliedPromo
     ? appliedPromo.type === "percentage"
@@ -49,6 +55,20 @@ export default function CartPage() {
     }
     if (!address.trim()) {
       toast.error("Please enter a shipping address");
+      return;
+    }
+
+    if (paymentMethod === "bila") {
+      prepareBila.mutate({ checkoutToken, address, promoCodeId: appliedPromo?.id ?? null,
+        items: items.map(item => ({ product_id: item.id, quantity: item.quantity })),
+      }, {
+        onSuccess: () => {
+          clearCart();
+          toast.success("Order saved. Confirm the final amount and pay in your account.");
+          navigate("/account");
+        },
+        onError: error => toast.error(error.message),
+      });
       return;
     }
 
@@ -106,19 +126,19 @@ export default function CartPage() {
 
         <div className="grid lg:grid-cols-3 gap-12">
           <div className="lg:col-span-2 space-y-0">
-            <div className="border-b border-border pb-2 mb-0 grid grid-cols-[1fr_auto_auto_auto] gap-4 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+            <div className="border-b border-border pb-2 mb-0 hidden sm:grid grid-cols-[minmax(0,1fr)_auto_auto_auto] gap-4 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
               <span>Product</span>
               <span className="w-24 text-center">Qty</span>
               <span className="w-20 text-right">Price</span>
               <span className="w-8" />
             </div>
             {items.map((item) => (
-              <div key={item.id} className="grid grid-cols-[1fr_auto_auto_auto] gap-4 items-center py-4 border-b border-border">
-                <div className="flex items-center gap-4">
+              <div key={item.id} className="grid grid-cols-[minmax(0,1fr)_auto_auto] sm:grid-cols-[minmax(0,1fr)_auto_auto_auto] gap-3 sm:gap-4 items-center py-4 border-b border-border">
+                <div className="col-span-3 sm:col-span-1 flex min-w-0 items-center gap-4">
                   <div className="w-16 h-16 bg-secondary flex-shrink-0 overflow-hidden">
                     {item.image_url && <img src={item.image_url} alt={item.name} className="w-full h-full object-cover" />}
                   </div>
-                  <span className="text-sm font-medium">{item.name}</span>
+                  <span className="min-w-0 break-words text-sm font-medium">{item.name}</span>
                 </div>
                 <div className="flex items-center border border-border w-24">
                   <button onClick={() => updateQuantity(item.id, item.quantity - 1)} className="p-1 hover:bg-secondary"><Minus size={14} /></button>
@@ -133,7 +153,7 @@ export default function CartPage() {
             ))}
           </div>
 
-          <div className="border border-border p-6 h-fit">
+          <div className="min-w-0 border border-border p-6 h-fit">
             <h2 className="font-heading text-lg font-semibold mb-6">Order Summary</h2>
 
             {/* Promo Code */}
@@ -145,7 +165,7 @@ export default function CartPage() {
                   value={promoCode}
                   onChange={(e) => setPromoCode(e.target.value)}
                   placeholder="Enter code"
-                  className="flex-1 border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-ring"
+                  className="min-w-0 flex-1 border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-ring"
                 />
                 <button
                   onClick={handleApplyPromo}
@@ -190,15 +210,22 @@ export default function CartPage() {
               </div>
             </div>
 
-            <button
+            {bila?.available && (
+              <fieldset className="border-t border-border pt-4 mt-4 space-y-3 text-sm">
+                <legend className="text-xs font-semibold uppercase pt-4">Payment method</legend>
+                <label className="flex items-center gap-2"><input type="radio" name="payment-method" value="manual" checked={paymentMethod === "manual"} onChange={() => setPaymentMethod("manual")} />Manual mobile money</label>
+                <label className="flex items-center gap-2"><input type="radio" name="payment-method" value="bila" checked={paymentMethod === "bila"} onChange={() => setPaymentMethod("bila")} />Bila mobile money</label>
+              </fieldset>
+            )}
+            <Button
               onClick={handleCheckout}
-              disabled={createOrder.isPending}
-              className="w-full mt-6 bg-foreground text-background py-4 text-sm font-semibold uppercase tracking-widest hover:bg-primary hover:text-primary-foreground transition-colors disabled:opacity-50"
+              disabled={createOrder.isPending || prepareBila.isPending}
+              className="w-full mt-6 rounded-none h-auto bg-foreground text-background py-4 text-sm font-semibold uppercase tracking-widest hover:bg-primary hover:text-primary-foreground transition-colors disabled:opacity-50"
             >
-              {createOrder.isPending ? "Placing Order..." : "Place Order"}
-            </button>
+              {createOrder.isPending || prepareBila.isPending ? "Placing Order..." : "Place Order"}
+            </Button>
             <p className="text-xs text-muted-foreground mt-3 text-center">
-              After placing your order, upload your mobile money screenshot in your account.
+              {paymentMethod === "bila" ? "Confirm your final amount and pay with Bila in your account after placing your order." : "After placing your order, upload your mobile money screenshot in your account."}
             </p>
           </div>
         </div>

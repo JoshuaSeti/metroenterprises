@@ -6,11 +6,14 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { LogOut, Package, MessageSquare } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useBilaPayments } from "@/hooks/use-bila";
+import BilaOrderPayment from "@/components/BilaOrderPayment";
 
 export default function AccountPage() {
   const { user, userRole, signOut, loading } = useAuth();
   const { data: orders } = useUserOrders();
   const navigate = useNavigate();
+  const { data: bilaPayments, error: bilaError } = useBilaPayments();
 
   useEffect(() => {
     if (!loading && !user) navigate("/signin");
@@ -67,9 +70,12 @@ export default function AccountPage() {
         </div>
 
         <h2 className="font-heading text-xl font-semibold mb-4">Order History</h2>
+        {bilaError && <p role="alert" className="text-sm text-destructive mb-4">Unable to load Bila payments. Refresh before attempting a payment.</p>}
         {orders && orders.length > 0 ? (
           <div className="space-y-4">
-            {orders.map((order: any) => (
+            {orders.map((order: any) => {
+              const payment = bilaPayments?.find(p => p.order_id === order.id);
+              return (
               <div key={order.id} className="border border-border p-6">
                 <div className="flex items-start justify-between mb-4">
                   <div>
@@ -100,8 +106,9 @@ export default function AccountPage() {
                     ))}
                   </div>
                 )}
+                {payment && <BilaOrderPayment payment={payment} orderStatus={order.status} />}
               </div>
-            ))}
+            );})}
           </div>
         ) : (
           <p className="text-muted-foreground text-center py-8">No orders yet</p>

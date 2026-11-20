@@ -33,7 +33,7 @@ Deno.serve(async (req: Request) => {
     return respond({
       keyConfigured: Boolean(Deno.env.get("BILA_API_KEY")),
       walletConfigured: Boolean(Deno.env.get("BILA_WALLET_ID")),
-      paymentsEnabled: false,
+      paymentsEnabled: Boolean(Deno.env.get("BILA_API_KEY") && Deno.env.get("BILA_WALLET_ID")),
       environment: "live",
     });
   } catch {
