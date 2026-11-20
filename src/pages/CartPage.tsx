@@ -2,7 +2,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useCart } from "@/hooks/use-cart";
 import { useAuth } from "@/hooks/use-auth";
-import { useValidatePromoCode, useCreateOrder } from "@/hooks/use-store-data";
+import { useValidatePromoCode } from "@/hooks/use-store-data";
 import { Minus, Plus, X } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -17,11 +17,9 @@ export default function CartPage() {
   const [appliedPromo, setAppliedPromo] = useState<any>(null);
   const [address, setAddress] = useState("");
   const validatePromo = useValidatePromoCode();
-  const createOrder = useCreateOrder();
   const navigate = useNavigate();
-  const { data: bila } = useBilaAvailability();
+  const { data: bila, isLoading: bilaLoading } = useBilaAvailability();
   const prepareBila = usePrepareBila();
-  const [paymentMethod, setPaymentMethod] = useState("manual");
   const [checkoutToken] = useState(() => crypto.randomUUID());
 
   const discountAmount = appliedPromo
@@ -58,7 +56,10 @@ export default function CartPage() {
       return;
     }
 
-    if (paymentMethod === "bila") {
+    if (!bila?.available || prepareBila.isPending) {
+      toast.error("Bila checkout is currently unavailable. Please try again later.");
+      return;
+    }
       prepareBila.mutate({ checkoutToken, address, promoCodeId: appliedPromo?.id ?? null,
         items: items.map(item => ({ product_id: item.id, quantity: item.quantity })),
       }, {
@@ -69,34 +70,6 @@ export default function CartPage() {
         },
         onError: error => toast.error(error.message),
       });
-      return;
-    }
-
-    createOrder.mutate(
-      {
-        subtotal: total,
-        discount_amount: discountAmount,
-        total: finalTotal,
-        promo_code_id: appliedPromo?.id,
-        shipping_address: address,
-        items: items.map((item) => ({
-          product_id: item.id,
-          quantity: item.quantity,
-          unit_price: item.price,
-          discount_amount: 0,
-        })),
-      },
-      {
-        onSuccess: () => {
-          clearCart();
-          toast.success("Order placed! Upload payment proof in your account.");
-          navigate("/account");
-        },
-        onError: (err: any) => {
-          toast.error(err.message || "Failed to place order");
-        },
-      }
-    );
   };
 
   if (items.length === 0) {
@@ -210,22 +183,17 @@ export default function CartPage() {
               </div>
             </div>
 
-            {bila?.available && (
-              <fieldset className="border-t border-border pt-4 mt-4 space-y-3 text-sm">
-                <legend className="text-xs font-semibold uppercase pt-4">Payment method</legend>
-                <label className="flex items-center gap-2"><input type="radio" name="payment-method" value="manual" checked={paymentMethod === "manual"} onChange={() => setPaymentMethod("manual")} />Manual mobile money</label>
-                <label className="flex items-center gap-2"><input type="radio" name="payment-method" value="bila" checked={paymentMethod === "bila"} onChange={() => setPaymentMethod("bila")} />Bila mobile money</label>
-              </fieldset>
-            )}
+            <p className="border-t border-border pt-4 mt-4 text-sm">Payment: Bila mobile money</p>
+            {!bilaLoading && !bila?.available && <p role="alert" className="text-sm text-destructive mt-2">Bila checkout is currently unavailable. Please try again later.</p>}
             <Button
               onClick={handleCheckout}
-              disabled={createOrder.isPending || prepareBila.isPending}
+              disabled={!bila?.available || prepareBila.isPending}
               className="w-full mt-6 rounded-none h-auto bg-foreground text-background py-4 text-sm font-semibold uppercase tracking-widest hover:bg-primary hover:text-primary-foreground transition-colors disabled:opacity-50"
             >
-              {createOrder.isPending || prepareBila.isPending ? "Placing Order..." : "Place Order"}
+              {prepareBila.isPending ? "Placing Order..." : bilaLoading ? "Checking payment availability..." : "Place Order"}
             </Button>
             <p className="text-xs text-muted-foreground mt-3 text-center">
-              {paymentMethod === "bila" ? "Confirm your final amount and pay with Bila in your account after placing your order." : "After placing your order, upload your mobile money screenshot in your account."}
+              Confirm your final amount and pay with Bila in your account after placing your order.
             </p>
           </div>
         </div>
