@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useStoreSettings, useUpdateStoreSettings } from "@/hooks/use-store-settings";
+import BilaSetupStatus from "@/components/admin/BilaSetupStatus";
 
 export default function AdminSettings() {
   const { data: settings, isLoading } = useStoreSettings();
@@ -59,6 +60,7 @@ export default function AdminSettings() {
           </button>
         </form>
       )}
+      <BilaSetupStatus />
     </div>
   );
 }

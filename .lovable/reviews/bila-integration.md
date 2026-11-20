@@ -2,6 +2,8 @@
 
 The store owner authorized Bila integration and explicitly requested a direct key without payment tests. Manual checkout remains unchanged. No payment endpoint, payment collection, or customer-facing Bila checkout has been enabled yet.
 
+The direct key is saved in encrypted project secrets. The deployed `bila-readiness` endpoint validates the signed-in admin and returns only configuration-presence booleans. Admin → Settings shows the saved key, required wallet, and disabled checkout. This display was checked in the authenticated admin view without contacting Bila or requesting a payment. Receiving wallet ID is awaiting the owner's answer.
+
 ## Confirmed provider requirements
 - Documentation: https://docs.usebila.com/docs/developers/overview
 - Live base URL: `https://api.usebila.com/api/v1`

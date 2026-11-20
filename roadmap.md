@@ -5,6 +5,7 @@
 
 # Bila payments
 - [x] Verify Bila's official test API and request a secure connection.
-- [ ] Store the owner's direct Bila live key securely — awaiting the secure credential form; no connector or payment tests requested.
-- [ ] Add order-linked mobile money collection and verified payment status — blocked: requires the Bila key and merchant wallet first.
-- [ ] Retain manual checkout and check integration safety without sending payment requests.
+- [x] Store the owner's direct Bila key securely; no connector or payment tests requested.
+- [x] Add an admin-only setup status showing key and wallet configuration; verify its signed-in display without requesting a payment.
+- [ ] Add order-linked mobile money collection and verified payment status — blocked: awaiting the owner's Bila receiving wallet ID.
+- [x] Retain manual checkout; Bila remains disabled while setup is incomplete.
