@@ -43,6 +43,13 @@
       "when": 1795214745924,
       "tag": "0005_protect_bila_order_snapshots",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1795517623713,
+      "tag": "0006_restrict_rewards_tiers_public_read",
+      "breakpoints": true
     }
   ]
 }
